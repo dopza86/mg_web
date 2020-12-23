@@ -24,7 +24,7 @@ const Text = styled.Text`
   color: ${(props) => (props.accent ? colors.kakaobrown : colors.black)};
 `;
 
-const Btn = ({ loading, onPress, text, accent = false }) => (
+const KakaoBtn = ({ loading = false, onPress, text, accent = false }) => (
   <TouchableOpacity onPress={loading ? null : onPress}>
     <Button accent={accent}>
       {loading ? (
@@ -39,10 +39,10 @@ const Btn = ({ loading, onPress, text, accent = false }) => (
   </TouchableOpacity>
 );
 
-Btn.propTypes = {
+KakaoBtn.propTypes = {
   onPress: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   accent: PropTypes.bool,
 };
 
-export default Btn;
+export default KakaoBtn;

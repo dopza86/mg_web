@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import SignInPresenter from "./SignInPresenter";
 import { toast } from "react-toastify";
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
+import { userLogin, me } from "../../../redux/usersSlice";
+import SignInPresenter from "./SignInPresenter";
 
-export default () => {
+export default ({ route: { params } }) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(params?.username || "dopza86");
+  const [password, setPassword] = useState(params?.password || "12");
 
   const isFormValid = () => {
     if (username === "" || password === "") {
@@ -20,6 +23,12 @@ export default () => {
     if (!isFormValid()) {
       return;
     }
+    dispatch(
+      userLogin({
+        username,
+        password,
+      })
+    );
   };
 
   return (

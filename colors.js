@@ -5,4 +5,5 @@ export default {
   instablue: "#0F9BF7",
   kakaoyellow: "#F9E000",
   kakaobrown: "#3B1C1C",
+  facebookblue: "#166FE5",
 };

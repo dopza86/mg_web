@@ -13,8 +13,7 @@ const Button = styled.View`
   padding:12.5px 0px
   align-items: center;
   width: ${width / 1.5}px;
-  background-color: ${(props) =>
-    props.accent ? colors.instablue : "transparent"};
+  background-color: ${(props) => (props.accent ? colors.red : "transparent")};
   max-width: 350px;
 `;
 const Text = styled.Text`
@@ -23,7 +22,7 @@ const Text = styled.Text`
   color: ${(props) => (props.accent ? "white" : colors.black)};
 `;
 
-const Btn = ({ loading, onPress, text, accent = false }) => (
+const Btn = ({ loading = false, onPress, text, accent = false }) => (
   <TouchableOpacity onPress={loading ? null : onPress}>
     <Button accent={accent}>
       {loading ? (
