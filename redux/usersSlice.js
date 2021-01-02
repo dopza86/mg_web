@@ -30,6 +30,7 @@ export const userLogin = (form) => async (dispatch) => {
         user: { pk },
       },
     } = await api.login(form);
+    console.log(token, pk);
     if (pk && token) {
       dispatch(logIn({ token, pk }));
     }
