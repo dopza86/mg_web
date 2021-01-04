@@ -3,11 +3,14 @@ import { Image, Platform } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
 
 import PropTypes from "prop-types";
 
 import constants from "../constants";
 import PostPhoto from "./PostPhoto";
+import colors from "../colors";
+import { toggleLike } from "../redux/postsSlice";
 
 const Container = styled.View`
   width: 100%;
@@ -57,7 +60,11 @@ const PostCard = ({
   location,
   avatar,
   created,
+  isLiked,
+  like_count,
 }) => {
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <Header>
@@ -77,9 +84,13 @@ const PostCard = ({
       <PostPhoto photos={photos} />
       <InfoContainer>
         <IconsContainer>
-          <Touchable>
+          <Touchable onPress={() => dispatch(toggleLike(id))}>
             <IconContainer>
-              <Ionicons size={24} name="md-heart" />
+              <Ionicons
+                size={24}
+                color={isLiked ? colors.red : colors.black}
+                name="md-heart"
+              />
             </IconContainer>
           </Touchable>
           <Touchable>
@@ -88,7 +99,9 @@ const PostCard = ({
             </IconContainer>
           </Touchable>
         </IconsContainer>
-        <Touchable></Touchable>
+
+        <Bold>{like_count === 0 ? "" : `${like_count}명이 좋아합니다`}</Bold>
+
         <Caption>
           <Bold>{user.username}</Bold> {caption}
         </Caption>

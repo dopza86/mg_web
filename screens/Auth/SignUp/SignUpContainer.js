@@ -34,7 +34,7 @@ export default ({ navigation: { navigate } }) => {
         username,
         password,
       });
-      console.log(status);
+
       if (status === 201) {
         alert("가입을 축하드립니다");
         navigate("SignIn", { username, password });

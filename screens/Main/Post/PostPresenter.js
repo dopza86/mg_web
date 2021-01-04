@@ -32,6 +32,7 @@ const LoadMoreText = styled.Text`
 
 export default ({ posts, increasePage }) => {
   const navigation = useNavigation();
+  console.log(posts);
   return (
     <Container>
       {posts.length === 0 ? (
@@ -54,6 +55,8 @@ export default ({ posts, increasePage }) => {
                 caption={post.caption}
                 location={post.location}
                 created={post.created}
+                isLiked={post.is_liked}
+                like_count={post.like_list ? post.like_list.count_users : 0}
               />
             ))}
           </ScrollView>
