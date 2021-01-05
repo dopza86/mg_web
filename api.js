@@ -5,7 +5,7 @@ const callApi = async (method, path, data, jwt) => {
     Authorization: jwt,
     "Content-Type": "application/json",
   };
-  const baseUrl = " http://127.0.0.1:8000/api/v1";
+  const baseUrl = "http://127.0.0.1:8000/api/v1";
   const fullUrl = `${baseUrl}${path}`;
   if (method === "get" || method === "delete") {
     return axios[method](fullUrl, { headers });
@@ -20,7 +20,7 @@ export default {
   login: (form) => callApi("post", "/rest-auth/login/", form),
   isMe: (pk) => callApi("get", `/users/${pk}`, pk),
   myFollow: (form, token) =>
-    callApi("get", "/follow_relation/my_follow/", null, token, form),
+    callApi("get", "/follow_relation/my_follow/", form, token),
   posts: (page = 1, token) =>
     callApi("get", `/posts/?page=${page}`, null, token),
   handleLike: (postId, userId, token) =>
@@ -30,4 +30,9 @@ export default {
       null,
       token
     ),
+  getComment: (postId) =>
+    callApi("get", `/comments/get_comment/?post_pk=${postId}`),
+
+  goComment: (postId, form, token) =>
+    callApi("post", `/comments/go_comment/?post_pk=${postId}`, form, token),
 };

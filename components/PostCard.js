@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { Image, Platform } from "react-native";
+import { Image, Platform, View } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 
-import PropTypes from "prop-types";
-
-import constants from "../constants";
 import PostPhoto from "./PostPhoto";
 import colors from "../colors";
-import { toggleLike } from "../redux/postsSlice";
+import { toggleLike, getComment, createComment } from "../redux/postsSlice";
+import Comment from "./Comment";
 
 const Container = styled.View`
   width: 100%;
@@ -44,22 +42,13 @@ const InfoContainer = styled.View`
 const Caption = styled.Text`
   margin: 5px 0px;
 `;
-const CommentCount = styled.Text`
-  opacity: 0.5;
-  font-size: 13px;
-`;
 
 const PostCard = ({
-  key,
   id,
   user,
   photos,
-  name,
-  postObj,
   caption,
   location,
-  avatar,
-  created,
   isLiked,
   like_count,
 }) => {
@@ -105,42 +94,9 @@ const PostCard = ({
         <Caption>
           <Bold>{user.username}</Bold> {caption}
         </Caption>
-        <Touchable>
-          <CommentCount></CommentCount>
-        </Touchable>
       </InfoContainer>
     </Container>
   );
 };
-
-// Post.propTypes = {
-//   id: PropTypes.string.isRequired,
-//   user: PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     avatar: PropTypes.string,
-//     username: PropTypes.string.isRequired,
-//   }).isRequired,
-//   files: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       url: PropTypes.string.isRequired,
-//     })
-//   ).isRequired,
-//   likeCount: PropTypes.number.isRequired,
-//   isLiked: PropTypes.bool.isRequired,
-//   comments: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       text: PropTypes.string.isRequired,
-//       user: PropTypes.shape({
-//         id: PropTypes.string.isRequired,
-//         username: PropTypes.string.isRequired,
-//       }).isRequired,
-//     })
-//   ).isRequired,
-//   caption: PropTypes.string.isRequired,
-//   location: PropTypes.string,
-//   createdAt: PropTypes.string.isRequired,
-// };
 
 export default PostCard;

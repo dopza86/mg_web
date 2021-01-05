@@ -8,6 +8,7 @@ const postsSlice = createSlice({
       posts: [],
     },
     likes: [],
+    comments: [],
   },
   reducers: {
     setExplorePosts(state, action) {
@@ -19,6 +20,7 @@ const postsSlice = createSlice({
         state.explore.posts = [...state.explore.posts, ...payload.posts];
       }
     },
+
     increasePage(state, action) {
       state.explore.page += 1;
     },
@@ -50,6 +52,30 @@ const postsSlice = createSlice({
         }
       }
     },
+    addComment(state, action) {
+      const {
+        payload: { postId, text },
+      } = action;
+
+      const post = state.explore.posts.find((post) => post.id === postId);
+      if (post) {
+        state.comments = [text, ...state.comments];
+        alert("댓글을 등록했습니다");
+      }
+    },
+    deleteComment(state, action) {
+      const {
+        payload: { commentId },
+      } = action;
+      const comment = state.explore.comments.find(
+        (comment) => comment.id === commentId
+      );
+      if (comment) {
+        state.comments = state.comments.filter(
+          (comment) => comment.id !== commentId
+        );
+      }
+    },
   },
 });
 
@@ -58,6 +84,8 @@ export const {
   increasePage,
   setLikes,
   setLike,
+  addComment,
+  deleteComment,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -89,6 +117,14 @@ export const toggleLike = (postId) => async (dispatch, getState) => {
 
   try {
     await api.handleLike(postId, pk, token);
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const getComment = (postId) => async (dispatch, getState) => {
+  try {
+    const { data } = await api.getComment(postId);
   } catch (e) {
     console.warn(e);
   }
