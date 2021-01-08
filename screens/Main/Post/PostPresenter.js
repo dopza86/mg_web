@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import api from "../../../api";
 import CommentPresenter from "../../../components/CommentPresenter";
 import { useDispatch } from "react-redux";
+import { addComment } from "../../../redux/postsSlice";
 
 const Container = styled.View`
   flex: 1;
@@ -26,45 +27,29 @@ const LoadMore = styled.View`
   border-radius: 5px;
   margin-bottom: 30px;
 `;
-
+const Touchable = styled.TouchableOpacity``;
 const LoadMoreText = styled.Text`
   color: white;
   font-size: 18px;
   font-weight: 500;
 `;
 
-export default ({ posts, increasePage, token }) => {
+const CommentCount = styled.Text`
+  margin-left:10px
+  margin-bottom:15px
+  opacity: 0.7;
+  box-shadow: 0px 1px rgba(200, 200, 200, 0.5);
+  padding: 10px 20px;
+`;
+
+export default ({ posts, increasePage, token, commentsPage }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [comment, setComment] = useState("");
+  const [comment, setComments] = useState("");
   const [postId, setPostId] = useState("");
-  const isFormValid = () => {
-    if (comment === "") {
-      alert("댓글을 입력 해주세요");
-      return false;
-    }
-
-    return true;
-  };
-  const addComment = (postId) => async () => {
-    if (!isFormValid()) {
-      return;
-    }
-
-    const form = {
-      text: comment,
-    };
-
-    try {
-      const { status } = await api.goComment(postId, form, token);
-
-      if (status === 201) {
-        alert("댓글이 등록되었습니다");
-        setComment("");
-      }
-    } catch (e) {
-      console.warn(e);
-    }
+  const onSubmit = (postId, comment, post, token) => {
+    dispatch(addComment(postId, comment));
+    navigation.navigate("CommentDetail", { post, token });
   };
 
   return (
@@ -92,14 +77,29 @@ export default ({ posts, increasePage, token }) => {
                   created={post.created}
                   isLiked={post.is_liked}
                   like_count={post.like_list ? post.like_list.count_users : 0}
-                  comment_count={post.comment_list.length}
                 />
-
-                <CommentPresenter
+                {/* <CommentPresenter
                   comment={comment}
-                  setComment={setComment}
-                  addComment={async () => dispatch(addComment(post.id))}
-                />
+                  setComments={setComments}
+                  addComment={() => dispatch(addComment(post.id, comment))}
+                /> */}
+                {post.comment_list.length === 0 ? (
+                  <CommentPresenter
+                    comment={comment.value}
+                    setComments={setComments}
+                    addComment={() => onSubmit(post.id, comment, post, token)}
+                  />
+                ) : (
+                  <Touchable
+                    onPress={() =>
+                      navigation.navigate("CommentDetail", { post, token })
+                    }
+                  >
+                    <CommentCount>
+                      {post.comment_list.length}개의 댓글더보기...
+                    </CommentCount>
+                  </Touchable>
+                )}
               </>
             ))}
           </ScrollView>

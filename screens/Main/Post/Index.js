@@ -6,7 +6,6 @@ function mapDispatchToProps(dispatch) {
   return {
     getPosts: (page) => dispatch(getPosts(page)),
     increasePage: () => dispatch(increasePage()),
-    getComment: () => dispatch(getComment()),
   };
 }
 
@@ -17,6 +16,7 @@ function mapStateToProps(state) {
     likes: state.postsReducer.likes,
     comments: state.postsReducer.comments,
     token: state.usersReducer.token,
+    commentsPage: state.postsReducer.commentsPage,
   };
 }
 

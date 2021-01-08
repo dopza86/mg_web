@@ -30,8 +30,11 @@ export default {
       null,
       token
     ),
-  getComment: (postId) =>
-    callApi("get", `/comments/get_comment/?post_pk=${postId}`),
+  seeComment: (postId, commentsPage = 1) =>
+    callApi(
+      "get",
+      `/comments/get_comment/?post_pk=${postId}&page=${commentsPage}`
+    ),
 
   goComment: (postId, form, token) =>
     callApi("post", `/comments/go_comment/?post_pk=${postId}`, form, token),

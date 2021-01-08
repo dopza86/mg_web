@@ -4,7 +4,7 @@
 // import CommentPresenter from "../CommentPresenter";
 
 // export default ({ token }) => {
-//   const [comment, setComment] = useState("");
+//   const [comment, setComments] = useState("");
 //   const isFormValid = () => {
 //     if (comment === "") {
 //       alert("댓글을 입력 해주세요");
@@ -26,7 +26,7 @@
 
 //       if (status === 201) {
 //         alert("댓글이 등록되었습니다");
-//         setComment("");
+//         setComments("");
 //       }
 //     } catch (e) {
 //       console.warn(e);
@@ -36,7 +36,7 @@
 //   return (
 //     <CommentPresenter
 //       comment={comment}
-//       setComment={setComment}
+//       setComments={setComments}
 //       addComment={addComment}
 //     />
 //   );

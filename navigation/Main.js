@@ -13,6 +13,7 @@ import Post from "../screens/Main/Post";
 import Message from "../screens/Main/Message";
 import Search from "../screens/Main/Search";
 import Profile from "../screens/Main/Profile";
+import CommentDetail from "../screens/Main/CommentDetail";
 
 const TabsNavigator = createBottomTabNavigator();
 
@@ -83,6 +84,12 @@ export default () => (
     <MainNavigator.Screen
       name="Tabs"
       component={Tabs}
+      options={{ headerShown: false }}
+    />
+
+    <MainNavigator.Screen
+      name="CommentDetail"
+      component={CommentDetail}
       options={{ headerShown: false }}
     />
   </MainNavigator.Navigator>

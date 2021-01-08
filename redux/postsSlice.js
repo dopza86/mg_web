@@ -9,6 +9,7 @@ const postsSlice = createSlice({
     },
     likes: [],
     comments: [],
+    commentsPage: 1,
   },
   reducers: {
     setExplorePosts(state, action) {
@@ -52,29 +53,25 @@ const postsSlice = createSlice({
         }
       }
     },
-    addComment(state, action) {
-      const {
-        payload: { postId, text },
-      } = action;
+    increaseCommentsPage(state, action) {
+      state.commentsPage += 1;
+    },
+    setComments(state, action) {
+      const { payload } = action;
 
-      const post = state.explore.posts.find((post) => post.id === postId);
-      if (post) {
-        state.comments = [text, ...state.comments];
-        alert("댓글을 등록했습니다");
+      if (payload.commentsPage === 1) {
+        state.comments = payload.data;
+        state.commentsPage = 1;
+      } else {
+        state.comments = [...state.Comments, ...payload.data];
       }
     },
-    deleteComment(state, action) {
+    createComment(state, action) {
       const {
-        payload: { commentId },
+        payload: { data },
       } = action;
-      const comment = state.explore.comments.find(
-        (comment) => comment.id === commentId
-      );
-      if (comment) {
-        state.comments = state.comments.filter(
-          (comment) => comment.id !== commentId
-        );
-      }
+
+      state.comments = [data, ...state.comments];
     },
   },
 });
@@ -84,8 +81,9 @@ export const {
   increasePage,
   setLikes,
   setLike,
-  addComment,
-  deleteComment,
+  setComments,
+  createComment,
+  increaseCommentsPage,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -122,9 +120,48 @@ export const toggleLike = (postId) => async (dispatch, getState) => {
   }
 };
 
-export const getComment = (postId) => async (dispatch, getState) => {
+export const getComment = (postId, commentsPage) => async (
+  dispatch,
+  getState
+) => {
   try {
-    const { data } = await api.getComment(postId);
+    const { data } = await api.seeComment(postId, commentsPage);
+    dispatch(setComments({ data, commentsPage }));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+const isFormValid = (comment) => {
+  if (comment === "") {
+    alert("댓글을 입력 해주세요");
+    return false;
+  }
+
+  return true;
+};
+
+export const addComment = (postId, comment) => async (dispatch, getState) => {
+  const {
+    usersReducer: { token },
+  } = getState();
+
+  if (!isFormValid(comment)) {
+    return;
+  }
+
+  const form = {
+    text: comment,
+  };
+
+  try {
+    const { data, status } = await api.goComment(postId, form, token);
+
+    if (status === 201) {
+      alert("댓글이 등록되었습니다");
+      dispatch(createComment({ postId, data }));
+      setComments("");
+    }
   } catch (e) {
     console.warn(e);
   }

@@ -23,16 +23,16 @@ const CommentInput = styled.TextInput`
 
 const InputText = styled.Text``;
 
-export default ({ comment, setComment, addComment }) => {
+export default ({ comment, setComments, addComment }) => {
   return (
     <CommentContainer>
       <CommentInput
         value={comment}
-        onChangeText={(text) => setComment(text)}
+        onChangeText={(text) => setComments(text)}
         placeholder="댓글을 달아주세요"
       />
       <TouchableOpacity onPress={addComment}>
-        <InputText>등록</InputText>
+        <InputText>등록 </InputText>
       </TouchableOpacity>
     </CommentContainer>
   );

@@ -12,7 +12,6 @@ import Comment from "./Comment";
 
 const Container = styled.View`
   width: 100%;
-  margin-bottom: 25px;
 `;
 const Header = styled.View`
   padding: 15px;
