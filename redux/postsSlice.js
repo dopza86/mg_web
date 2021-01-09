@@ -73,6 +73,24 @@ const postsSlice = createSlice({
 
       state.comments = [data, ...state.comments];
     },
+
+    removeComment(state, action) {
+      const {
+        payload: { commentId },
+      } = action;
+      console.log(commentId);
+      const comment = state.comments.find(
+        (comment) => comment.id === commentId
+      );
+      if (comment) {
+        state.comments = state.comments.filter(
+          (comment) => comment.id !== commentId
+        );
+        alert("삭제되었습니다.");
+      } else {
+        alert("삭제할수없습니다");
+      }
+    },
   },
 });
 
@@ -84,6 +102,7 @@ export const {
   setComments,
   createComment,
   increaseCommentsPage,
+  removeComment,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -160,10 +179,22 @@ export const addComment = (postId, comment) => async (dispatch, getState) => {
     if (status === 201) {
       alert("댓글이 등록되었습니다");
       dispatch(createComment({ postId, data }));
-      setComments("");
     }
   } catch (e) {
     console.warn(e);
+  }
+};
+
+export const deleteComment = (commentId, token) => async (
+  dispatch,
+  getState
+) => {
+  const deleteConfirm = confirm("댓글을 삭제하시겠습니까?");
+  if (deleteConfirm) {
+    const data = await api.deleteComment(commentId, token);
+    dispatch(removeComment({ commentId }));
+  } else {
+    return;
   }
 };
 

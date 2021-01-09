@@ -6,6 +6,7 @@ const userSlice = createSlice({
   initialState: {
     isLoggedIn: false,
     token: null,
+    user: [],
   },
   reducers: {
     logIn(state, action) {
@@ -17,10 +18,13 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.token = null;
     },
+    me(state, action) {
+      state.user = action.payload.user;
+    },
   },
 });
 
-export const { logIn, logOut } = userSlice.actions;
+export const { logIn, logOut, me } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
   try {
@@ -36,6 +40,18 @@ export const userLogin = (form) => async (dispatch) => {
     }
   } catch (e) {
     alert(e);
+  }
+};
+
+export const getMe = () => async (dispatch, getState) => {
+  const {
+    usersReducer: { pk },
+  } = getState();
+  try {
+    const { data } = await api.isMe(pk);
+    dispatch(me({ user: data }));
+  } catch (e) {
+    console.warn(e);
   }
 };
 

@@ -15,16 +15,15 @@ export default ({
     getPosts(1);
   }, []);
   useEffect(() => {
+    getPosts(1);
+  }, [comments]);
+  useEffect(() => {
     getPosts(page);
   }, [page]);
 
   useEffect(() => {
     getPosts(1);
   }, [likes]);
-
-  useEffect(() => {
-    getPosts(1);
-  }, [comments]);
 
   return (
     <PostPresenter

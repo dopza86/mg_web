@@ -49,6 +49,7 @@ export default ({ posts, increasePage, token, commentsPage }) => {
   const [postId, setPostId] = useState("");
   const onSubmit = (postId, comment, post, token) => {
     dispatch(addComment(postId, comment));
+    setComments("");
     navigation.navigate("CommentDetail", { post, token });
   };
 

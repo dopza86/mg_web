@@ -30,6 +30,7 @@ export default ({ comment, setComments, addComment }) => {
         value={comment}
         onChangeText={(text) => setComments(text)}
         placeholder="댓글을 달아주세요"
+        multiline={true}
       />
       <TouchableOpacity onPress={addComment}>
         <InputText>등록 </InputText>

@@ -38,4 +38,9 @@ export default {
 
   goComment: (postId, form, token) =>
     callApi("post", `/comments/go_comment/?post_pk=${postId}`, form, token),
+  editComment: (commetnId, form, token) =>
+    callApi("put", `/comments/${commetnId}`, form, token),
+
+  deleteComment: (commetnId, token) =>
+    callApi("delete", `/comments/${commetnId}`, null, token),
 };

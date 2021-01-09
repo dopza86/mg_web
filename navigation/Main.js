@@ -14,6 +14,7 @@ import Message from "../screens/Main/Message";
 import Search from "../screens/Main/Search";
 import Profile from "../screens/Main/Profile";
 import CommentDetail from "../screens/Main/CommentDetail";
+import CommentEdit from "../screens/Main/CommentEdit";
 
 const TabsNavigator = createBottomTabNavigator();
 
@@ -67,7 +68,7 @@ const Tabs = () => (
       },
     })}
   >
-    <TabsNavigator.Screen name="포스트" component={Post} />
+    <TabsNavigator.Screen name="포스트" component={CommentEdit} />
     <TabsNavigator.Screen name="메시지" component={Message} />
     <TabsNavigator.Screen name="검색" component={Search} />
     <TabsNavigator.Screen name="프로필" component={Profile} />
@@ -90,6 +91,11 @@ export default () => (
     <MainNavigator.Screen
       name="CommentDetail"
       component={CommentDetail}
+      options={{ headerShown: false }}
+    />
+    <MainNavigator.Screen
+      name="CommentEdit"
+      component={CommentEdit}
       options={{ headerShown: false }}
     />
   </MainNavigator.Navigator>
