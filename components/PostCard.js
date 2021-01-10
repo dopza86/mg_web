@@ -4,11 +4,11 @@ import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-
+import { AntDesign } from "@expo/vector-icons";
 import PostPhoto from "./PostPhoto";
 import colors from "../colors";
-import { toggleLike, getComment, createComment } from "../redux/postsSlice";
-import Comment from "./Comment";
+import { toggleLike } from "../redux/postsSlice";
+import { toggleFollow } from "../redux/usersSlice";
 
 const Container = styled.View`
   width: 100%;
@@ -19,6 +19,20 @@ const Header = styled.View`
   align-items: center;
 `;
 const Touchable = styled.TouchableOpacity``;
+const FollwContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center
+  margin-left: 10px;
+  border: 1px solid black;
+  padding: 2px 5px;
+  border-radius: 5;
+  background-color: #0095f6;
+`;
+const FollweText = styled.Text`
+  color: white;
+  font-size: 12px;
+`;
 const HeaderUserContainer = styled.View`
   margin-left: 10px;
 `;
@@ -67,6 +81,20 @@ const PostCard = ({
             <Bold>{user.username}</Bold>
             <Location>{location}</Location>
           </HeaderUserContainer>
+        </Touchable>
+        <Touchable onPress={() => dispatch(toggleFollow(user))}>
+          {user.is_follower ? (
+            <>
+              <AntDesign name="check" size={24} color="green" />
+            </>
+          ) : (
+            <>
+              <FollwContainer>
+                <Ionicons name="add" size={12} color="white" />
+                <FollweText>팔로우</FollweText>
+              </FollwContainer>
+            </>
+          )}
         </Touchable>
       </Header>
       <PostPhoto photos={photos} />

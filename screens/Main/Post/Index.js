@@ -17,6 +17,7 @@ function mapStateToProps(state) {
     comments: state.postsReducer.comments,
     token: state.usersReducer.token,
     commentsPage: state.postsReducer.commentsPage,
+    followers: state.usersReducer.followers,
   };
 }
 

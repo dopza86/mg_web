@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
 import PostCard from "../../../components/PostCard";
-import {
-  ActivityIndicator,
-  ScrollView,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import api from "../../../api";
+
 import CommentPresenter from "../../../components/CommentPresenter";
 import { useDispatch } from "react-redux";
 import { addComment } from "../../../redux/postsSlice";

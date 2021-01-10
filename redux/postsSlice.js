@@ -41,6 +41,7 @@ const postsSlice = createSlice({
         payload: { postId },
       } = action;
       const post = state.explore.posts.find((post) => post.id === postId);
+      console.log(typeof state.likes);
       if (post) {
         if (post.is_liked) {
           post.is_liked = false;
@@ -70,7 +71,7 @@ const postsSlice = createSlice({
       const {
         payload: { data },
       } = action;
-      console.log(data);
+
       state.comments = [data, ...state.comments];
     },
 
@@ -223,7 +224,7 @@ export const editComment = (commentId, text, token, postId) => async (
   const editConfirm = confirm("댓글을 수정하시겠습니까?");
   if (editConfirm) {
     const { status, data } = await api.editComment(commentId, form, token);
-    console.log(status);
+
     if (status === 200) {
       alert("수정되었습니다");
       dispatch(putComment({ data }));

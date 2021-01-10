@@ -7,7 +7,9 @@ const userSlice = createSlice({
     isLoggedIn: false,
     token: null,
     user: [],
+    followers: [],
   },
+
   reducers: {
     logIn(state, action) {
       state.isLoggedIn = true;
@@ -21,10 +23,39 @@ const userSlice = createSlice({
     me(state, action) {
       state.user = action.payload.user;
     },
+    setFollow(state, action) {
+      const { payload } = action;
+
+      const follower = state.followers.find(
+        (follower) => follower.id === payload.id
+      );
+      console.log(follower);
+
+      if (follower === undefined || follower) {
+        if (payload.is_follower === false) {
+          state.followers = [payload, ...state.followers];
+          const follower = state.followers.find(
+            (follower) => follower.id === payload.id
+          );
+          follower.is_follower = true;
+          alert("팔로우!");
+        } else if (payload.is_follower === true) {
+          state.followers = [payload, ...state.followers];
+          const follower = state.followers.find(
+            (follower) => follower.id === payload.id
+          );
+          follower.is_follower = false;
+          state.followers = state.followers.filter(
+            (follower) => follower.id !== payload.id
+          );
+          alert("언팔로우!");
+        }
+      }
+    },
   },
 });
 
-export const { logIn, logOut, me } = userSlice.actions;
+export const { logIn, logOut, me, setFollow } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
   try {
@@ -48,8 +79,29 @@ export const getMe = () => async (dispatch, getState) => {
     usersReducer: { pk },
   } = getState();
   try {
-    const { data } = await api.isMe(pk);
+    const { data } = await api.getUser(pk);
     dispatch(me({ user: data }));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const toggleFollow = (user) => async (dispatch, getState) => {
+  const {
+    usersReducer: { pk, token },
+  } = getState();
+  const userId = user.id;
+  const isFollower = user.is_follower;
+
+  try {
+    const {
+      data: { id },
+    } = await api.follow(userId, token);
+    const {
+      data: { is_follower },
+    } = await api.getUser(id);
+    console.log(is_follower);
+    dispatch(setFollow({ id, is_follower }));
   } catch (e) {
     console.warn(e);
   }

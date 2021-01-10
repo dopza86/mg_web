@@ -18,7 +18,15 @@ export default {
   createAccount: (form) => callApi("post", "/users/", form),
   // login: (form) => callApi("post", "/users/login/", form),
   login: (form) => callApi("post", "/rest-auth/login/", form),
-  isMe: (pk) => callApi("get", `/users/${pk}`, pk),
+  getUser: (pk) => callApi("get", `/users/${pk}`, pk),
+  follow: (followerId, token) =>
+    callApi(
+      "get",
+      `/follow_relation/follow/?follow_pk=${followerId}`,
+      null,
+      token
+    ),
+
   myFollow: (form, token) =>
     callApi("get", "/follow_relation/my_follow/", form, token),
   posts: (page = 1, token) =>
@@ -38,8 +46,8 @@ export default {
 
   goComment: (postId, form, token) =>
     callApi("post", `/comments/go_comment/?post_pk=${postId}`, form, token),
-  editComment: (commetnId, form, token) =>
-    callApi("put", `/comments/${commetnId}/`, form, token),
+  editComment: (commnetId, form, token) =>
+    callApi("put", `/comments/${commnetId}/`, form, token),
 
   deleteComment: (commetnId, token) =>
     callApi("delete", `/comments/${commetnId}`, null, token),

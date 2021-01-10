@@ -7,7 +7,7 @@ export default ({
   increasePage,
   page,
   comments,
-
+  followers,
   likes,
   token,
 }) => {
@@ -24,7 +24,10 @@ export default ({
   useEffect(() => {
     getPosts(1);
   }, [likes]);
-
+  useEffect(() => {
+    getPosts(1);
+  }, [followers]);
+  console.log(posts);
   return (
     <PostPresenter
       posts={posts}
