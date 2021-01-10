@@ -68,7 +68,7 @@ const Tabs = () => (
       },
     })}
   >
-    <TabsNavigator.Screen name="포스트" component={CommentEdit} />
+    <TabsNavigator.Screen name="포스트" component={Post} />
     <TabsNavigator.Screen name="메시지" component={Message} />
     <TabsNavigator.Screen name="검색" component={Search} />
     <TabsNavigator.Screen name="프로필" component={Profile} />

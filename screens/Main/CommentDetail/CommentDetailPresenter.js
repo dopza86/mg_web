@@ -159,7 +159,7 @@ export default ({ navigation, post, comments, token, user }) => {
                     <TouchableOpacity
                       style={{ marginRight: 5 }}
                       onPress={() =>
-                        navigation.navigate("CommentEdit", { c, token })
+                        navigation.navigate("CommentEdit", { c, token, post })
                       }
                     >
                       <Ionicons name="pencil" size={15} color="black" />

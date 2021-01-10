@@ -70,7 +70,7 @@ const postsSlice = createSlice({
       const {
         payload: { data },
       } = action;
-
+      console.log(data);
       state.comments = [data, ...state.comments];
     },
 
@@ -78,10 +78,11 @@ const postsSlice = createSlice({
       const {
         payload: { commentId },
       } = action;
-      console.log(commentId);
+
       const comment = state.comments.find(
         (comment) => comment.id === commentId
       );
+
       if (comment) {
         state.comments = state.comments.filter(
           (comment) => comment.id !== commentId
@@ -90,6 +91,14 @@ const postsSlice = createSlice({
       } else {
         alert("삭제할수없습니다");
       }
+    },
+    putComment(state, action) {
+      const {
+        payload: { data },
+      } = action;
+      const comment = state.comments.find((comment) => comment.id === data.id);
+      state.comments.splice(state.comments.indexOf(comment), 1, data);
+      // state.comments = [data, ...state.comments];
     },
   },
 });
@@ -103,6 +112,7 @@ export const {
   createComment,
   increaseCommentsPage,
   removeComment,
+  putComment,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -193,6 +203,33 @@ export const deleteComment = (commentId, token) => async (
   if (deleteConfirm) {
     const data = await api.deleteComment(commentId, token);
     dispatch(removeComment({ commentId }));
+  } else {
+    return;
+  }
+};
+
+export const editComment = (commentId, text, token, postId) => async (
+  dispatch,
+  getState
+) => {
+  const form = {
+    text: text,
+    post: postId,
+  };
+  if (text === "") {
+    alert("수정할 내용을 입력하세요");
+    return;
+  }
+  const editConfirm = confirm("댓글을 수정하시겠습니까?");
+  if (editConfirm) {
+    const { status, data } = await api.editComment(commentId, form, token);
+    console.log(status);
+    if (status === 200) {
+      alert("수정되었습니다");
+      dispatch(putComment({ data }));
+    } else {
+      alert("수정할 수 없습니다");
+    }
   } else {
     return;
   }

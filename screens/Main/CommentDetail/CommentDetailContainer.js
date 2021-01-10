@@ -17,8 +17,6 @@ export default ({ route, comments, getComment, getMe, user }) => {
     getMe();
   }, []);
 
-  console.log(comments);
-
   return (
     <CommentDetailPresenter
       navigation={navigation}
