@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, View, TouchableOpacity, Text } from "react-native";
+import { Image, View, TouchableOpacity, Text, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,7 @@ import CommentPresenter from "../../../components/CommentPresenter";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { addComment, deleteComment } from "../../../redux/postsSlice";
-
+const { width } = Dimensions.get("screen");
 const Container = styled.View`
   width: 100%;
   align-items: center;
@@ -103,7 +103,36 @@ const CommentBtn = styled.View`
 const Total = styled.View`
   box-shadow: 0px 1px rgba(200, 200, 200, 0.5);
 `;
-export default ({ navigation, post, comments, token, user }) => {
+
+const LoadMoreContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
+const LoadMore = styled.View`
+  width: ${width / 2}px;
+  max-width:300px
+  justify-content: center;
+  align-items: center;
+
+  padding: 5px 5px;
+  background-color:  #0095f6;
+  border-radius: 5px;
+  margin-bottom: 15px;
+`;
+
+const LoadMoreText = styled.Text`
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+`;
+export default ({
+  navigation,
+  post,
+  comments,
+  token,
+  user,
+  increaseCommentsPage,
+}) => {
   const dispatch = useDispatch();
 
   const [comment, setComments] = useState("");
@@ -189,7 +218,17 @@ export default ({ navigation, post, comments, token, user }) => {
             </Comment>
           </CommentContainer>
         ))}
+        {comments.length > 14 ? (
+          <LoadMoreContainer>
+            <Touchable onPress={increaseCommentsPage}>
+              <LoadMore>
+                <LoadMoreText>더보기</LoadMoreText>
+              </LoadMore>
+            </Touchable>
+          </LoadMoreContainer>
+        ) : null}
       </Total>
+
       <CommentPresenter
         comment={comment}
         setComments={setComments}

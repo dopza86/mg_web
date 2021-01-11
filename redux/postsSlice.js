@@ -41,7 +41,7 @@ const postsSlice = createSlice({
         payload: { postId },
       } = action;
       const post = state.explore.posts.find((post) => post.id === postId);
-      console.log(typeof state.likes);
+
       if (post) {
         if (post.is_liked) {
           post.is_liked = false;
@@ -64,7 +64,7 @@ const postsSlice = createSlice({
         state.comments = payload.data;
         state.commentsPage = 1;
       } else {
-        state.comments = [...state.Comments, ...payload.data];
+        state.comments = [...state.comments, ...payload.data];
       }
     },
     createComment(state, action) {

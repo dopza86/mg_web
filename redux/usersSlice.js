@@ -29,7 +29,6 @@ const userSlice = createSlice({
       const follower = state.followers.find(
         (follower) => follower.id === payload.id
       );
-      console.log(follower);
 
       if (follower === undefined || follower) {
         if (payload.is_follower === false) {
@@ -100,7 +99,7 @@ export const toggleFollow = (user) => async (dispatch, getState) => {
     const {
       data: { is_follower },
     } = await api.getUser(id);
-    console.log(is_follower);
+
     dispatch(setFollow({ id, is_follower }));
   } catch (e) {
     console.warn(e);

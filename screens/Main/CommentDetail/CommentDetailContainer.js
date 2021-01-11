@@ -3,7 +3,15 @@ import CommentDetailPresenter from "./CommentDetailPresenter";
 import { useNavigation } from "@react-navigation/native";
 // import { getComment } from "../../../redux/postsSlice";
 
-export default ({ route, comments, getComment, getMe, user }) => {
+export default ({
+  route,
+  comments,
+  getComment,
+  getMe,
+  user,
+  increaseCommentsPage,
+  commentsPage,
+}) => {
   const navigation = useNavigation();
   const {
     params: { post, token },
@@ -14,9 +22,13 @@ export default ({ route, comments, getComment, getMe, user }) => {
   }, []);
 
   useEffect(() => {
+    getComment(post.id, commentsPage);
+  }, [commentsPage]);
+
+  useEffect(() => {
     getMe();
   }, []);
-
+  console.log(comments);
   return (
     <CommentDetailPresenter
       navigation={navigation}
@@ -24,6 +36,7 @@ export default ({ route, comments, getComment, getMe, user }) => {
       comments={comments}
       token={token}
       user={user}
+      increaseCommentsPage={increaseCommentsPage}
     />
   );
 };
