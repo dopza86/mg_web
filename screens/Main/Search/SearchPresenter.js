@@ -1,20 +1,11 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Modal from "modal-enhanced-react-native-web";
 
-import {
-  ActivityIndicator,
-  Dimensions,
-  Text,
-  TouchableHighlight,
-  View,
-  TouchableOpacity,
-  CheckBox,
-  StyleSheet,
-} from "react-native";
+import { Dimensions, TouchableOpacity, Switch } from "react-native";
 
 import colors from "../../../colors";
 import PostCard from "../../../components/PostCard";
@@ -42,23 +33,6 @@ const SearchBar = styled.TextInput`
   justify-content: center;
   padding-left: 10px;
 `;
-
-const PickerContainer = styled.View`
-  justify-content: center;
-  align-items: center;
-  padding: 10px 20px;
-`;
-
-const Picker = styled.Picker`
-  border-radius: 7px;
-  padding-left: 10px;
-  height: 40px;
-  width: 80%;
-`;
-
-const CancelContainer = styled.TouchableOpacity``;
-
-const CancelText = styled.Text``;
 
 const SearchBtnContainer = styled.View`
   justify-content: center;
@@ -93,6 +67,12 @@ const SearchText = styled.Text`
   font-size: 16px;
 `;
 
+const SearchText2 = styled.Text`
+  color: Black;
+  font-weight: 600;
+  font-size: 16px;
+`;
+
 const Results = styled.ScrollView`
   margin-top: 25px;
 `;
@@ -110,46 +90,62 @@ const ModalContainer = styled.View`
 const ModalContent = styled.View`
   background-color: white;
   padding: 22px;
-  justify-content: center;
-  align-items: center;
+
   border-radius: 4px;
+
   border-color: rgba(0, 0, 0, 0.1);
 `;
+
+const ModalButtonContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
 const ModalButton = styled.View`
-  background-color: lightblue;
-  padding: 12px;
+  background-color: #0095f6;
+  padding: 10px 24px;
   margin: 16px;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   border-color: rgba(0, 0, 0, 0.1);
 `;
+
+const ModalButton2 = styled.View`
+  background-color: transparent;
+  padding: 10px 24px;
+  margin: 16px;
+  justify-content: center;
+  align-items: center;
+  border:1px solid black
+  border-radius: 4px;
+  
+`;
 const ModalTextContainer = styled.View`
   justify-content: space-between;
   flex-direction: row;
 `;
 const ModalText = styled.Text``;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
-  label: {
-    margin: 8,
-  },
-});
+const SwitchContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 30px;
+`;
+
+const SwitchTextContainer = styled.View`
+  margin-left: 35px;
+`;
+const SwitchText = styled.Text`
+  font-size: 15px;
+`;
+
 export default () => {
-  const [isSelected, setSelection] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const navigation = useNavigation();
-  const [selectedValue, setSelectedValue] = useState("java");
+
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -181,20 +177,67 @@ export default () => {
         </SearchContainer>
         <Modal isVisible={modalVisible}>
           <ModalContent>
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <ModalButton>Hello</ModalButton>
-            </TouchableOpacity>
-            <View style={styles.container}>
-              <View style={styles.checkboxContainer}>
-                <CheckBox
-                  value={isSelected}
-                  onValueChange={setSelection}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.label}>Do you like React Native?</Text>
-              </View>
-              <Text>Is CheckBox selected: {isSelected ? "👍" : "👎"}</Text>
-            </View>
+            <SwitchContainer>
+              <SwitchTextContainer>
+                <SwitchText>작성자</SwitchText>
+              </SwitchTextContainer>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </SwitchContainer>
+
+            <SwitchContainer>
+              <SwitchTextContainer>
+                <SwitchText>해시태그</SwitchText>
+              </SwitchTextContainer>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </SwitchContainer>
+            <SwitchContainer>
+              <SwitchTextContainer>
+                <SwitchText>위치</SwitchText>
+              </SwitchTextContainer>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </SwitchContainer>
+            <SwitchContainer>
+              <SwitchTextContainer>
+                <SwitchText>내용</SwitchText>
+              </SwitchTextContainer>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </SwitchContainer>
+            <ModalButtonContainer>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <ModalButton>
+                  <SearchText>취소</SearchText>
+                </ModalButton>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <ModalButton>
+                  <SearchText>확인</SearchText>
+                </ModalButton>
+              </TouchableOpacity>
+            </ModalButtonContainer>
           </ModalContent>
         </Modal>
       </Container>
