@@ -50,11 +50,11 @@ const LoadMoreText = styled.Text`
   font-weight: 500;
 `;
 
-export default ({ posts, increasePage, token, commentsPage }) => {
+export default ({ posts, increasePage, token }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [comment, setComments] = useState("");
-  const [postId, setPostId] = useState("");
+
   const onSubmit = (postId, comment, post, token) => {
     dispatch(addComment(postId, comment));
     setComments("");
@@ -85,11 +85,7 @@ export default ({ posts, increasePage, token, commentsPage }) => {
                     isLiked={post.is_liked}
                     like_count={post.like_list ? post.like_list.count_users : 0}
                   />
-                  {/* <CommentPresenter
-                  comment={comment}
-                  setComments={setComments}
-                  addComment={() => dispatch(addComment(post.id, comment))}
-                /> */}
+
                   {post.comment_list.length === 0 ? (
                     <CommentPresenter
                       comment={comment.value}

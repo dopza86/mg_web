@@ -41,7 +41,7 @@ export default ({
         />
       </InputContainer>
       <Btn text={"접속하기"} accent={true} onPress={handleSubmit} />
-      <KakaoBtn text={" 카카오 로그인"} accent={true} />
+      {/* <KakaoBtn text={" 카카오 로그인"} accent={true} /> */}
       <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
     </Container>
   );

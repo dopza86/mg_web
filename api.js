@@ -31,6 +31,7 @@ export default {
     callApi("get", "/follow_relation/my_follow/", form, token),
   posts: (page = 1, token) =>
     callApi("get", `/posts/?page=${page}`, null, token),
+  search: (form, token) => callApi("get", "/posts/search/", null, token, form),
   handleLike: (postId, userId, token) =>
     callApi(
       "get",

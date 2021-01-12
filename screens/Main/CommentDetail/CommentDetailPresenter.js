@@ -143,7 +143,7 @@ export default ({
 
   return (
     <>
-      <Total>
+      <Total key={post.id}>
         <Touchable onPress={() => navigation.goBack()}>
           <IconsContainer>
             <IconContainer>

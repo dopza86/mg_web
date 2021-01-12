@@ -45,7 +45,7 @@ export default ({
         />
       </InputContainer>
       <Btn loading={loading} text={"가입하기"} accent onPress={handleSubmit} />
-      <KakaoBtn text={" 카카오로 시작"} accent={true} />
+      {/* <KakaoBtn text={" 카카오로 시작"} accent={true} /> */}
     </Container>
   );
 };

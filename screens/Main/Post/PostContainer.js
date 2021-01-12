@@ -27,13 +27,8 @@ export default ({
   useEffect(() => {
     getPosts(1);
   }, [followers]);
-
+  console.log(posts);
   return (
-    <PostPresenter
-      posts={posts}
-      increasePage={increasePage}
-      token={token}
-      commentsPage={1}
-    />
+    <PostPresenter posts={posts} increasePage={increasePage} token={token} />
   );
 };
