@@ -28,7 +28,7 @@ export default ({
   useEffect(() => {
     getMe();
   }, []);
-  console.log(comments);
+
   return (
     <CommentDetailPresenter
       navigation={navigation}

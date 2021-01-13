@@ -5,9 +5,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Modal from "modal-enhanced-react-native-web";
 
-import { Dimensions, TouchableOpacity, Switch } from "react-native";
+import {
+  Dimensions,
+  TouchableOpacity,
+  Switch,
+  KeyboardAvoidingView,
+} from "react-native";
 
-import colors from "../../../colors";
 import PostCard from "../../../components/PostCard";
 
 const { width } = Dimensions.get("screen");
@@ -73,10 +77,6 @@ const SearchText2 = styled.Text`
   font-size: 16px;
 `;
 
-const Results = styled.ScrollView`
-  margin-top: 25px;
-`;
-
 const ModalContainer = styled.View`
   height: 40px;
   width: 90%;
@@ -140,10 +140,29 @@ const SwitchTextContainer = styled.View`
 const SwitchText = styled.Text`
   font-size: 15px;
 `;
+const Results = styled.ScrollView`
+  margin-top: 25px;
+`;
+const ResultsText = styled.Text`
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
+`;
 
-export default () => {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+export default ({
+  userEnabled,
+  tagEnabled,
+  locationEnabled,
+  captionEnabled,
+  userSwitch,
+  tagSwitch,
+  locationSwitch,
+  captionSwitch,
+  searchResults,
+  setSearchValue,
+  modalText,
+  triggerSearch,
+}) => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -160,11 +179,15 @@ export default () => {
 
       <Container>
         <SearchContainer>
-          <SearchBar autoFocus={true} placeholder="검색" />
+          <SearchBar
+            autoFocus={true}
+            placeholder="검색"
+            onChangeText={(text) => setSearchValue(text)}
+          />
           <ModalContainer>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <ModalTextContainer>
-                <ModalText>Hello</ModalText>
+                <ModalText>{modalText}</ModalText>
                 <AntDesign
                   name="caretdown"
                   size={16}
@@ -175,80 +198,96 @@ export default () => {
             </TouchableOpacity>
           </ModalContainer>
         </SearchContainer>
-        <Modal isVisible={modalVisible}>
-          <ModalContent>
-            <SwitchContainer>
-              <SwitchTextContainer>
-                <SwitchText>작성자</SwitchText>
-              </SwitchTextContainer>
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </SwitchContainer>
+        <KeyboardAvoidingView>
+          <Modal isVisible={modalVisible}>
+            <ModalContent>
+              <SwitchContainer>
+                <SwitchTextContainer>
+                  <SwitchText>작성자</SwitchText>
+                </SwitchTextContainer>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={userEnabled ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={userSwitch}
+                  value={userEnabled}
+                />
+              </SwitchContainer>
 
-            <SwitchContainer>
-              <SwitchTextContainer>
-                <SwitchText>해시태그</SwitchText>
-              </SwitchTextContainer>
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </SwitchContainer>
-            <SwitchContainer>
-              <SwitchTextContainer>
-                <SwitchText>위치</SwitchText>
-              </SwitchTextContainer>
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </SwitchContainer>
-            <SwitchContainer>
-              <SwitchTextContainer>
-                <SwitchText>내용</SwitchText>
-              </SwitchTextContainer>
-              <Switch
-                trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </SwitchContainer>
-            <ModalButtonContainer>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <ModalButton>
-                  <SearchText>취소</SearchText>
-                </ModalButton>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <ModalButton>
-                  <SearchText>확인</SearchText>
-                </ModalButton>
-              </TouchableOpacity>
-            </ModalButtonContainer>
-          </ModalContent>
-        </Modal>
+              <SwitchContainer>
+                <SwitchTextContainer>
+                  <SwitchText>해시태그</SwitchText>
+                </SwitchTextContainer>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={tagEnabled ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={tagSwitch}
+                  value={tagEnabled}
+                />
+              </SwitchContainer>
+              <SwitchContainer>
+                <SwitchTextContainer>
+                  <SwitchText>위치</SwitchText>
+                </SwitchTextContainer>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={locationEnabled ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={locationSwitch}
+                  value={locationEnabled}
+                />
+              </SwitchContainer>
+              <SwitchContainer>
+                <SwitchTextContainer>
+                  <SwitchText>내용</SwitchText>
+                </SwitchTextContainer>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  thumbColor={captionEnabled ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={captionSwitch}
+                  value={captionEnabled}
+                />
+              </SwitchContainer>
+              <ModalButtonContainer>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <ModalButton>
+                    <SearchText>확인</SearchText>
+                  </ModalButton>
+                </TouchableOpacity>
+              </ModalButtonContainer>
+            </ModalContent>
+          </Modal>
+        </KeyboardAvoidingView>
       </Container>
 
       <SearchBtnContainer>
-        <SearchBtn>
+        <SearchBtn onPress={triggerSearch}>
           <SearchText>검색</SearchText>
         </SearchBtn>
       </SearchBtnContainer>
-
-      <Results></Results>
+      {searchResults ? (
+        <ResultsText>{searchResults.length}개의 결과가 있습니다</ResultsText>
+      ) : null}
+      <Results>
+        {searchResults?.map((post) => (
+          <PostCard
+            key={post.id}
+            id={post.id}
+            user={post.user}
+            avatar={post.user.avatar}
+            photos={post.photos}
+            name={post.name}
+            postObj={post}
+            caption={post.caption}
+            location={post.location}
+            created={post.created}
+            isLiked={post.is_liked}
+            like_count={post.like_list ? post.like_list.count_users : 0}
+          />
+        ))}
+      </Results>
     </>
   );
 };
