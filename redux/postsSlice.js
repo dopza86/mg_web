@@ -10,6 +10,8 @@ const postsSlice = createSlice({
     likes: [],
     comments: [],
     commentsPage: 1,
+    filtered: [],
+    filteredPage: 1,
   },
   reducers: {
     setExplorePosts(state, action) {
@@ -101,6 +103,14 @@ const postsSlice = createSlice({
       state.comments.splice(state.comments.indexOf(comment), 1, data);
       // state.comments = [data, ...state.comments];
     },
+    setFilterPost(state, action) {
+      const {
+        payload: { results },
+      } = action;
+
+      state.filtered = results;
+      console.log(results);
+    },
   },
 });
 
@@ -114,6 +124,7 @@ export const {
   increaseCommentsPage,
   removeComment,
   putComment,
+  setFilterPost,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -233,6 +244,17 @@ export const editComment = (commentId, text, token, postId) => async (
     }
   } else {
     return;
+  }
+};
+
+export const searchPost = (form, token) => async (dispatch, getState) => {
+  try {
+    const {
+      data: { results },
+    } = await api.search(form, token);
+    dispatch(setFilterPost({ results }));
+  } catch (e) {
+    console.warn(e);
   }
 };
 

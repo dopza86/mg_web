@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import api from "../../../api";
+import { searchPost } from "../../../redux/postsSlice";
 import SearchPresenter from "./SearchPresenter";
 
-export default ({ token }) => {
+export default ({ token, filtered, likes, followers }) => {
+  const dispatch = useDispatch();
   const [userEnabled, setUserEnabled] = useState(true);
   const [tagEnabled, setTagEnabled] = useState(false);
   const [locationEnabled, setLocationEnabled] = useState(false);
@@ -60,29 +63,16 @@ export default ({ token }) => {
       const form = {
         ...(searchValue && { user: searchValue }),
       };
-      console.log(form);
-      try {
-        const {
-          data: { results },
-        } = await api.search(form, token);
-        setSearchResults(results);
-      } catch (e) {
-        console.warn(e);
-      }
+      // console.log(form);
+
+      dispatch(searchPost(form, token));
     }
     if (locationEnabled === true) {
       const form = {
         ...(searchValue && { location: searchValue }),
       };
       console.log(form);
-      try {
-        const {
-          data: { results },
-        } = await api.search(form, token);
-        setSearchResults(results);
-      } catch (e) {
-        console.warn(e);
-      }
+      dispatch(searchPost(form, token));
     }
 
     if (tagEnabled === true) {
@@ -90,32 +80,16 @@ export default ({ token }) => {
         ...(searchValue && { tags: searchValue }),
       };
       console.log(form);
-      try {
-        const {
-          data: { results },
-        } = await api.search(form, token);
-        setSearchResults(results);
-      } catch (e) {
-        console.warn(e);
-      }
+      dispatch(searchPost(form, token));
     }
     if (captionEnabled === true) {
       const form = {
         ...(searchValue && { caption: searchValue }),
       };
       console.log(form);
-      try {
-        const {
-          data: { results },
-        } = await api.search(form, token);
-        setSearchResults(results);
-      } catch (e) {
-        console.warn(e);
-      }
+      dispatch(searchPost(form, token));
     }
   };
-
-  console.log(searchResults);
 
   return (
     <SearchPresenter
@@ -131,7 +105,7 @@ export default ({ token }) => {
       setSearchValue={setSearchValue}
       modalText={modalText}
       triggerSearch={triggerSearch}
-      searchResults={searchResults}
+      searchResults={filtered}
     />
   );
 };
