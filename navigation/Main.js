@@ -11,6 +11,7 @@ import colors from "../colors";
 
 import Post from "../screens/Main/Post";
 import Message from "../screens/Main/Message";
+import MessageDetail from "../screens/Main/MessageDetail";
 import Search from "../screens/Main/Search";
 import Profile from "../screens/Main/Profile";
 import CommentDetail from "../screens/Main/CommentDetail";
@@ -96,6 +97,11 @@ export default () => (
     <MainNavigator.Screen
       name="CommentEdit"
       component={CommentEdit}
+      options={{ headerShown: false }}
+    />
+    <MainNavigator.Screen
+      name="MessageDetail"
+      component={MessageDetail}
       options={{ headerShown: false }}
     />
   </MainNavigator.Navigator>

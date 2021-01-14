@@ -84,6 +84,7 @@ export default ({ posts, increasePage, token }) => {
                     created={post.created}
                     isLiked={post.is_liked}
                     like_count={post.like_list ? post.like_list.count_users : 0}
+                    token={token}
                   />
 
                   {post.comment_list.length === 0 ? (

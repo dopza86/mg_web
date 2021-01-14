@@ -9,6 +9,7 @@ import PostPhoto from "./PostPhoto";
 import colors from "../colors";
 import { toggleLike } from "../redux/postsSlice";
 import { toggleFollow } from "../redux/usersSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.View`
   width: 100%;
@@ -64,9 +65,10 @@ const PostCard = ({
   location,
   isLiked,
   like_count,
+  token,
 }) => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   return (
     <Container>
       <Header>
@@ -109,7 +111,11 @@ const PostCard = ({
               />
             </IconContainer>
           </Touchable>
-          <Touchable>
+          <Touchable
+            onPress={() =>
+              navigation.navigate("MessageDetail", { token, user })
+            }
+          >
             <IconContainer>
               <FontAwesome name="comment" size={24} color="black" />
             </IconContainer>

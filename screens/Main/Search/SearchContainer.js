@@ -99,7 +99,7 @@ export default ({
   };
 
   console.log(filtered);
-  // useEffect(clearFilterPost, []);
+  useEffect(clearFilterPost, []);
   return (
     <SearchPresenter
       userEnabled={userEnabled}
