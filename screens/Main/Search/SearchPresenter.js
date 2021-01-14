@@ -9,10 +9,11 @@ import {
   Dimensions,
   TouchableOpacity,
   Switch,
-  KeyboardAvoidingView,
+  ActivityIndicator,
 } from "react-native";
 
-import PostCard from "../../../components/PostCard";
+import SmallPostCard from "../../../components/SmallPostCard";
+import { ScrollView } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("screen");
 
@@ -89,11 +90,10 @@ const ModalContainer = styled.View`
 `;
 const ModalContent = styled.View`
   background-color: white;
-  padding: 22px;
-
+  padding: 20px;
   border-radius: 4px;
-
   border-color: rgba(0, 0, 0, 0.1);
+  justify-content: center;
 `;
 
 const ModalButtonContainer = styled.View`
@@ -103,7 +103,7 @@ const ModalButtonContainer = styled.View`
 `;
 const ModalButton = styled.View`
   background-color: #0095f6;
-  padding: 10px 24px;
+  padding: 10px 50px;
   margin: 16px;
   justify-content: center;
   align-items: center;
@@ -111,21 +111,16 @@ const ModalButton = styled.View`
   border-color: rgba(0, 0, 0, 0.1);
 `;
 
-const ModalButton2 = styled.View`
-  background-color: transparent;
-  padding: 10px 24px;
-  margin: 16px;
-  justify-content: center;
-  align-items: center;
-  border:1px solid black
-  border-radius: 4px;
-  
-`;
 const ModalTextContainer = styled.View`
   justify-content: space-between;
   flex-direction: row;
 `;
 const ModalText = styled.Text``;
+const SwitchBox = styled.View`
+  margin-top: 30px;
+  margin-right: 35px;
+  justify-content: center;
+`;
 const SwitchContainer = styled.View`
   flex: 1;
   align-items: center;
@@ -140,8 +135,13 @@ const SwitchTextContainer = styled.View`
 const SwitchText = styled.Text`
   font-size: 15px;
 `;
-const Results = styled.ScrollView`
+
+const Results = styled.View`
   margin-top: 25px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 const ResultsText = styled.Text`
   margin-top: 10px;
@@ -162,6 +162,7 @@ export default ({
   setSearchValue,
   modalText,
   triggerSearch,
+  loading,
 }) => {
   const navigation = useNavigation();
 
@@ -176,80 +177,82 @@ export default ({
           <Back>뒤로가기</Back>
         </IconsContainer>
       </TouchableOpacity>
+      <ScrollView>
+        <Container>
+          <SearchContainer>
+            <SearchBar
+              autoFocus={true}
+              placeholder="검색"
+              onChangeText={(text) => setSearchValue(text)}
+            />
+            <ModalContainer>
+              <TouchableOpacity onPress={() => setModalVisible(true)}>
+                <ModalTextContainer>
+                  <ModalText>{modalText}</ModalText>
+                  <AntDesign
+                    name="caretdown"
+                    size={16}
+                    color="black"
+                    style={{ marginRight: 10 }}
+                  />
+                </ModalTextContainer>
+              </TouchableOpacity>
+            </ModalContainer>
+          </SearchContainer>
 
-      <Container>
-        <SearchContainer>
-          <SearchBar
-            autoFocus={true}
-            placeholder="검색"
-            onChangeText={(text) => setSearchValue(text)}
-          />
-          <ModalContainer>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <ModalTextContainer>
-                <ModalText>{modalText}</ModalText>
-                <AntDesign
-                  name="caretdown"
-                  size={16}
-                  color="black"
-                  style={{ marginRight: 10 }}
-                />
-              </ModalTextContainer>
-            </TouchableOpacity>
-          </ModalContainer>
-        </SearchContainer>
-        <KeyboardAvoidingView>
           <Modal isVisible={modalVisible}>
             <ModalContent>
-              <SwitchContainer>
-                <SwitchTextContainer>
-                  <SwitchText>작성자</SwitchText>
-                </SwitchTextContainer>
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  thumbColor={userEnabled ? "#f5dd4b" : "#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={userSwitch}
-                  value={userEnabled}
-                />
-              </SwitchContainer>
+              <SwitchBox>
+                <SwitchContainer>
+                  <SwitchTextContainer>
+                    <SwitchText>작성자</SwitchText>
+                  </SwitchTextContainer>
+                  <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={userEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={userSwitch}
+                    value={userEnabled}
+                  />
+                </SwitchContainer>
 
-              <SwitchContainer>
-                <SwitchTextContainer>
-                  <SwitchText>해시태그</SwitchText>
-                </SwitchTextContainer>
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  thumbColor={tagEnabled ? "#f5dd4b" : "#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={tagSwitch}
-                  value={tagEnabled}
-                />
-              </SwitchContainer>
-              <SwitchContainer>
-                <SwitchTextContainer>
-                  <SwitchText>위치</SwitchText>
-                </SwitchTextContainer>
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  thumbColor={locationEnabled ? "#f5dd4b" : "#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={locationSwitch}
-                  value={locationEnabled}
-                />
-              </SwitchContainer>
-              <SwitchContainer>
-                <SwitchTextContainer>
-                  <SwitchText>내용</SwitchText>
-                </SwitchTextContainer>
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  thumbColor={captionEnabled ? "#f5dd4b" : "#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={captionSwitch}
-                  value={captionEnabled}
-                />
-              </SwitchContainer>
+                <SwitchContainer>
+                  <SwitchTextContainer>
+                    <SwitchText>해시태그</SwitchText>
+                  </SwitchTextContainer>
+                  <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={tagEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={tagSwitch}
+                    value={tagEnabled}
+                  />
+                </SwitchContainer>
+                <SwitchContainer>
+                  <SwitchTextContainer>
+                    <SwitchText>위치</SwitchText>
+                  </SwitchTextContainer>
+                  <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={locationEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={locationSwitch}
+                    value={locationEnabled}
+                  />
+                </SwitchContainer>
+                <SwitchContainer>
+                  <SwitchTextContainer>
+                    <SwitchText>내용</SwitchText>
+                  </SwitchTextContainer>
+                  <Switch
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={captionEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={captionSwitch}
+                    value={captionEnabled}
+                  />
+                </SwitchContainer>
+              </SwitchBox>
               <ModalButtonContainer>
                 <TouchableOpacity onPress={() => setModalVisible(false)}>
                   <ModalButton>
@@ -259,19 +262,40 @@ export default ({
               </ModalButtonContainer>
             </ModalContent>
           </Modal>
-        </KeyboardAvoidingView>
-      </Container>
+        </Container>
 
-      <SearchBtnContainer>
-        <SearchBtn onPress={triggerSearch}>
-          <SearchText>검색</SearchText>
-        </SearchBtn>
-      </SearchBtnContainer>
-      {searchResults ? (
-        <ResultsText>{searchResults.length}개의 결과가 있습니다</ResultsText>
-      ) : null}
-      <Results>
-        {searchResults?.map((post) => (
+        <SearchBtnContainer>
+          <SearchBtn onPress={triggerSearch}>
+            <SearchText>검색</SearchText>
+          </SearchBtn>
+        </SearchBtnContainer>
+        {searchResults.length === 0 ? null : (
+          <ResultsText>{searchResults.length}개의 결과가 있습니다</ResultsText>
+        )}
+        {loading ? (
+          <ActivityIndicator></ActivityIndicator>
+        ) : (
+          <Results>
+            {searchResults.map((post) => (
+              <SmallPostCard
+                key={post.id}
+                id={post.id}
+                user={post.user}
+                avatar={post.user.avatar}
+                photos={post.photos}
+                name={post.name}
+                postObj={post}
+                caption={post.caption}
+                location={post.location}
+                created={post.created}
+                isLiked={post.is_liked}
+                like_count={post.like_list ? post.like_list.count_users : 0}
+              />
+            ))}
+          </Results>
+        )}
+        {/* <Results>
+        {searchResults.map((post) => (
           <PostCard
             key={post.id}
             id={post.id}
@@ -287,7 +311,8 @@ export default ({
             like_count={post.like_list ? post.like_list.count_users : 0}
           />
         ))}
-      </Results>
+      </Results> */}
+      </ScrollView>
     </>
   );
 };

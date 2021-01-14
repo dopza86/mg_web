@@ -4,7 +4,14 @@ import api from "../../../api";
 import { searchPost } from "../../../redux/postsSlice";
 import SearchPresenter from "./SearchPresenter";
 
-export default ({ token, filtered, likes, followers }) => {
+export default ({
+  token,
+  filtered,
+  likes,
+  followers,
+  clearFilterPost,
+  loading,
+}) => {
   const dispatch = useDispatch();
   const [userEnabled, setUserEnabled] = useState(true);
   const [tagEnabled, setTagEnabled] = useState(false);
@@ -17,6 +24,7 @@ export default ({ token, filtered, likes, followers }) => {
   const [caption, setCaption] = useState();
   const [searchResults, setSearchResults] = useState();
   const [modalText, setModalText] = useState("작성자");
+  // const [loading, setLoading] = useState(false);
   const userSwitch = () => {
     setUserEnabled(true);
     setTagEnabled(false);
@@ -63,7 +71,6 @@ export default ({ token, filtered, likes, followers }) => {
       const form = {
         ...(searchValue && { user: searchValue }),
       };
-      // console.log(form);
 
       dispatch(searchPost(form, token));
     }
@@ -71,7 +78,7 @@ export default ({ token, filtered, likes, followers }) => {
       const form = {
         ...(searchValue && { location: searchValue }),
       };
-      console.log(form);
+
       dispatch(searchPost(form, token));
     }
 
@@ -79,18 +86,20 @@ export default ({ token, filtered, likes, followers }) => {
       const form = {
         ...(searchValue && { tags: searchValue }),
       };
-      console.log(form);
+
       dispatch(searchPost(form, token));
     }
     if (captionEnabled === true) {
       const form = {
         ...(searchValue && { caption: searchValue }),
       };
-      console.log(form);
+
       dispatch(searchPost(form, token));
     }
   };
 
+  console.log(filtered);
+  // useEffect(clearFilterPost, []);
   return (
     <SearchPresenter
       userEnabled={userEnabled}
@@ -106,6 +115,7 @@ export default ({ token, filtered, likes, followers }) => {
       modalText={modalText}
       triggerSearch={triggerSearch}
       searchResults={filtered}
+      loading={loading}
     />
   );
 };

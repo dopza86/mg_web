@@ -12,6 +12,7 @@ const postsSlice = createSlice({
     commentsPage: 1,
     filtered: [],
     filteredPage: 1,
+    loading: false,
   },
   reducers: {
     setExplorePosts(state, action) {
@@ -109,7 +110,15 @@ const postsSlice = createSlice({
       } = action;
 
       state.filtered = results;
-      console.log(results);
+    },
+    clearFilterPost(state) {
+      state.filtered = [];
+    },
+    setLoadingTrue(state) {
+      state.loading = true;
+    },
+    setLoadingFalse(state) {
+      state.loading = false;
     },
   },
 });
@@ -125,6 +134,10 @@ export const {
   removeComment,
   putComment,
   setFilterPost,
+  clearFilterPost,
+  loading,
+  setLoadingTrue,
+  setLoadingFalse,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -248,13 +261,17 @@ export const editComment = (commentId, text, token, postId) => async (
 };
 
 export const searchPost = (form, token) => async (dispatch, getState) => {
+  dispatch(setLoadingTrue());
   try {
     const {
       data: { results },
     } = await api.search(form, token);
+
     dispatch(setFilterPost({ results }));
   } catch (e) {
     console.warn(e);
+  } finally {
+    dispatch(setLoadingFalse());
   }
 };
 
