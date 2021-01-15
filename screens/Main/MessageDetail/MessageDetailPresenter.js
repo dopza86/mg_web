@@ -40,7 +40,7 @@ const TextInput = styled.TextInput`
   padding-left: 5px;
 `;
 
-export default () => {
+export default ({ token, postUser }) => {
   const navigation = useNavigation();
   return (
     <>
@@ -52,7 +52,7 @@ export default () => {
           <Back>뒤로가기</Back>
         </IconsContainer>
       </Touchable>
-      <Container>MessageDetail</Container>
+      <Container>{postUser.username}</Container>
       <TextInputContainer>
         <TextInput placeholder="메시지를 입력하세요" />
         <Touchable>

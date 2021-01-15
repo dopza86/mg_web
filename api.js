@@ -52,4 +52,11 @@ export default {
 
   deleteComment: (commetnId, token) =>
     callApi("delete", `/comments/${commetnId}`, null, token),
+  goConversation: (userOneId, userTwoId, token) =>
+    callApi(
+      "get",
+      `/conversations/conversation/go_conversation/?a_pk=${userOneId}&b_pk=${userTwoId}`,
+      null,
+      token
+    ),
 };

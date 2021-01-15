@@ -50,7 +50,7 @@ const LoadMoreText = styled.Text`
   font-weight: 500;
 `;
 
-export default ({ posts, increasePage, token }) => {
+export default ({ posts, increasePage, token, me }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [comment, setComments] = useState("");
@@ -85,6 +85,7 @@ export default ({ posts, increasePage, token }) => {
                     isLiked={post.is_liked}
                     like_count={post.like_list ? post.like_list.count_users : 0}
                     token={token}
+                    me={me}
                   />
 
                   {post.comment_list.length === 0 ? (

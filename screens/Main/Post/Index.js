@@ -1,11 +1,12 @@
 import PostContainer from "./PostContainer";
 import { connect } from "react-redux";
 import { getPosts, increasePage } from "../../../redux/postsSlice";
-
+import { getMe } from "../../../redux/usersSlice";
 function mapDispatchToProps(dispatch) {
   return {
     getPosts: (page) => dispatch(getPosts(page)),
     increasePage: () => dispatch(increasePage()),
+    getMe: () => dispatch(getMe()),
   };
 }
 
@@ -18,6 +19,7 @@ function mapStateToProps(state) {
     token: state.usersReducer.token,
     commentsPage: state.postsReducer.commentsPage,
     followers: state.usersReducer.followers,
+    user: state.usersReducer.user,
   };
 }
 

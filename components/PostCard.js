@@ -10,6 +10,7 @@ import colors from "../colors";
 import { toggleLike } from "../redux/postsSlice";
 import { toggleFollow } from "../redux/usersSlice";
 import { useNavigation } from "@react-navigation/native";
+import api from "../api";
 
 const Container = styled.View`
   width: 100%;
@@ -66,9 +67,14 @@ const PostCard = ({
   isLiked,
   like_count,
   token,
+  me,
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const goMessage = async (token, user, me) => {
+    await api.goConversation(user.id, me.id, token);
+    navigation.navigate("MessageDetail", { token, user, me });
+  };
   return (
     <Container>
       <Header>
@@ -111,11 +117,7 @@ const PostCard = ({
               />
             </IconContainer>
           </Touchable>
-          <Touchable
-            onPress={() =>
-              navigation.navigate("MessageDetail", { token, user })
-            }
-          >
+          <Touchable onPress={() => goMessage(token, user, me)}>
             <IconContainer>
               <FontAwesome name="comment" size={24} color="black" />
             </IconContainer>

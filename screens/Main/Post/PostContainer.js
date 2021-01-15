@@ -10,6 +10,8 @@ export default ({
   followers,
   likes,
   token,
+  user,
+  getMe,
 }) => {
   useEffect(() => {
     getPosts(1);
@@ -27,8 +29,16 @@ export default ({
   useEffect(() => {
     getPosts(1);
   }, [followers]);
-
+  useEffect(() => {
+    getMe();
+  }, []);
+  console.log(user);
   return (
-    <PostPresenter posts={posts} increasePage={increasePage} token={token} />
+    <PostPresenter
+      posts={posts}
+      increasePage={increasePage}
+      token={token}
+      me={user}
+    />
   );
 };
