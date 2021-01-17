@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { Text } from "react-native";
+import { sendMessage } from "../../../redux/usersSlice";
 
 const Container = styled.View`
   flex: 1;
@@ -40,8 +43,14 @@ const TextInput = styled.TextInput`
   padding-left: 5px;
 `;
 
-export default ({ token, postUser }) => {
+export default ({ token, postUser, conversationId, me }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [comment, setComments] = useState("");
+  const onSubmit = (conversationId, comment, token) => {
+    dispatch(sendMessage(conversationId, comment, token));
+    setComments("");
+  };
   return (
     <>
       <Touchable onPress={() => navigation.goBack()}>
@@ -52,10 +61,16 @@ export default ({ token, postUser }) => {
           <Back>뒤로가기</Back>
         </IconsContainer>
       </Touchable>
-      <Container>{postUser.username}</Container>
+      <Container>
+        <Text>{postUser.username}</Text>
+      </Container>
       <TextInputContainer>
-        <TextInput placeholder="메시지를 입력하세요" />
-        <Touchable>
+        <TextInput
+          placeholder="메시지를 입력하세요"
+          value={comment}
+          onChangeText={(text) => setComments(text)}
+        />
+        <Touchable onPress={() => onSubmit(conversationId, comment, token)}>
           <FontAwesome name="send" size={24} color="black" />
         </Touchable>
       </TextInputContainer>

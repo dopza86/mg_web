@@ -98,7 +98,6 @@ export default ({
     }
   };
 
-  console.log(filtered);
   useEffect(clearFilterPost, []);
   return (
     <SearchPresenter

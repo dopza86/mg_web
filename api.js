@@ -59,4 +59,11 @@ export default {
       null,
       token
     ),
+  sendMessage: (conversationId, form, token) =>
+    callApi(
+      "post",
+      `/conversations/message/send_messages/?pk=${conversationId}`,
+      form,
+      token
+    ),
 };

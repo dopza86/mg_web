@@ -8,9 +8,8 @@ import { AntDesign } from "@expo/vector-icons";
 import PostPhoto from "./PostPhoto";
 import colors from "../colors";
 import { toggleLike } from "../redux/postsSlice";
-import { toggleFollow } from "../redux/usersSlice";
+import { toggleFollow, goConversation } from "../redux/usersSlice";
 import { useNavigation } from "@react-navigation/native";
-import api from "../api";
 
 const Container = styled.View`
   width: 100%;
@@ -71,8 +70,8 @@ const PostCard = ({
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const goMessage = async (token, user, me) => {
-    await api.goConversation(user.id, me.id, token);
+  const goMessage = (token, user, me) => {
+    dispatch(goConversation(user.id));
     navigation.navigate("MessageDetail", { token, user, me });
   };
   return (
@@ -117,11 +116,13 @@ const PostCard = ({
               />
             </IconContainer>
           </Touchable>
-          <Touchable onPress={() => goMessage(token, user, me)}>
-            <IconContainer>
-              <FontAwesome name="comment" size={24} color="black" />
-            </IconContainer>
-          </Touchable>
+          {user.id === me.id ? null : (
+            <Touchable onPress={() => goMessage(token, user, me)}>
+              <IconContainer>
+                <FontAwesome name="comment" size={24} color="black" />
+              </IconContainer>
+            </Touchable>
+          )}
         </IconsContainer>
 
         <Bold>{like_count === 0 ? "" : `${like_count}명이 좋아합니다`}</Bold>

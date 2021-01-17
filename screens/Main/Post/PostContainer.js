@@ -32,7 +32,7 @@ export default ({
   useEffect(() => {
     getMe();
   }, []);
-  console.log(user);
+
   return (
     <PostPresenter
       posts={posts}

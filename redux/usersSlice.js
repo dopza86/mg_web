@@ -8,6 +8,7 @@ const userSlice = createSlice({
     token: null,
     user: [],
     followers: [],
+    conversations: [],
   },
 
   reducers: {
@@ -51,10 +52,30 @@ const userSlice = createSlice({
         }
       }
     },
+    setConversations(state, action) {
+      const { payload } = action;
+      state.conversations = payload;
+      console.log(payload);
+    },
+
+    setConversation(state, action) {
+      const { payload } = action;
+      const message = payload;
+      state.conversations.id = payload.conversation;
+
+      state.conversations.messages = [message, ...state.conversations.messages];
+    },
   },
 });
 
-export const { logIn, logOut, me, setFollow } = userSlice.actions;
+export const {
+  logIn,
+  logOut,
+  me,
+  setFollow,
+  setConversations,
+  setConversation,
+} = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
   try {
@@ -101,6 +122,41 @@ export const toggleFollow = (user) => async (dispatch, getState) => {
     } = await api.getUser(id);
 
     dispatch(setFollow({ id, is_follower }));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const goConversation = (userId) => async (dispatch, getState) => {
+  const {
+    usersReducer: { pk, token },
+  } = getState();
+
+  const meId = pk;
+
+  // console.log(userId);
+  try {
+    const {
+      data: { id, messages, participants },
+    } = await api.goConversation(userId, meId, token);
+
+    dispatch(setConversations({ id, messages, participants }));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const sendMessage = (conversationId, comment, token) => async (
+  dispatch,
+  getState
+) => {
+  const form = {
+    message: comment,
+    conversation: conversationId,
+  };
+  try {
+    const { data } = await api.sendMessage(conversationId, form, token);
+    dispatch(setConversation(data));
   } catch (e) {
     console.warn(e);
   }

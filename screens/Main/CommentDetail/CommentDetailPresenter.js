@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Image, View, TouchableOpacity, Text, Dimensions } from "react-native";
+import React, { useState } from "react";
+import { Image, TouchableOpacity, Dimensions } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
