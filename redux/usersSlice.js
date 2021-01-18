@@ -9,6 +9,8 @@ const userSlice = createSlice({
     user: [],
     followers: [],
     conversations: [],
+    messages: [],
+    page: 1,
   },
 
   reducers: {
@@ -55,7 +57,7 @@ const userSlice = createSlice({
     setConversations(state, action) {
       const { payload } = action;
       state.conversations = payload;
-      console.log(payload);
+      payload;
     },
 
     setConversation(state, action) {
@@ -64,6 +66,21 @@ const userSlice = createSlice({
       state.conversations.id = payload.conversation;
 
       state.conversations.messages = [message, ...state.conversations.messages];
+    },
+    increasePage(state, action) {
+      state.page += 1;
+    },
+    setMessage(state, action) {
+      const {
+        payload: { data, page },
+      } = action;
+      console.log(data, page);
+      if (page === 1) {
+        state.messages = data;
+        state.page = 1;
+      } else {
+        state.messages = [...state.messages, ...data];
+      }
     },
   },
 });
@@ -75,6 +92,7 @@ export const {
   setFollow,
   setConversations,
   setConversation,
+  setMessage,
 } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
@@ -157,6 +175,20 @@ export const sendMessage = (conversationId, comment, token) => async (
   try {
     const { data } = await api.sendMessage(conversationId, form, token);
     dispatch(setConversation(data));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const getMessage = (page) => async (dispatch, getState) => {
+  const {
+    usersReducer: { token, conversations },
+  } = getState();
+
+  const conversationId = conversations.id;
+  try {
+    const { data } = await api.getMessage(conversationId, token, page);
+    dispatch(setMessage({ data, page }));
   } catch (e) {
     console.warn(e);
   }

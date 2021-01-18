@@ -66,4 +66,11 @@ export default {
       form,
       token
     ),
+  getMessage: (conversationId, token, page = 1) =>
+    callApi(
+      "get",
+      `/conversations/message/get_messages/?pk=${conversationId}&page=${page}`,
+      null,
+      token
+    ),
 };
