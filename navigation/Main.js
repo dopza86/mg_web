@@ -6,9 +6,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { Foundation } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-
+import { Octicons } from "@expo/vector-icons";
 import colors from "../colors";
-
 import Post from "../screens/Main/Post";
 import Message from "../screens/Main/Message";
 import MessageDetail from "../screens/Main/MessageDetail";
@@ -41,10 +40,10 @@ const Tabs = () => (
               color={focused ? colors.red : "grey"}
             />
           );
-        } else if (route.name === "메시지") {
+        } else if (route.name === "작성하기") {
           return (
-            <Feather
-              name="message-square"
+            <Octicons
+              name="diff-added"
               size={24}
               color={focused ? colors.red : "grey"}
             />
@@ -57,7 +56,7 @@ const Tabs = () => (
               color={focused ? colors.red : "grey"}
             />
           );
-        } else if (route.name === "프로필") {
+        } else if (route.name === "마이페이지") {
           return (
             <Ionicons
               name="md-person"
@@ -70,9 +69,9 @@ const Tabs = () => (
     })}
   >
     <TabsNavigator.Screen name="포스트" component={Post} />
-    <TabsNavigator.Screen name="메시지" component={Message} />
+    <TabsNavigator.Screen name="작성하기" component={Message} />
     <TabsNavigator.Screen name="검색" component={Search} />
-    <TabsNavigator.Screen name="프로필" component={Profile} />
+    <TabsNavigator.Screen name="마이페이지" component={Profile} />
   </TabsNavigator.Navigator>
 );
 

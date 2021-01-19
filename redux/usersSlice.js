@@ -8,6 +8,7 @@ const userSlice = createSlice({
     token: null,
     user: [],
     followers: [],
+    followees: [],
     conversations: [],
     messages: [],
     page: 1,
@@ -27,32 +28,43 @@ const userSlice = createSlice({
       state.user = action.payload.user;
     },
     setFollow(state, action) {
-      const { payload } = action;
-
+      const {
+        payload: { data },
+      } = action;
+      // console.log(data.is_follower);
       const follower = state.followers.find(
-        (follower) => follower.id === payload.id
+        (follower) => follower.id === data.id
       );
 
       if (follower === undefined || follower) {
-        if (payload.is_follower === false) {
-          state.followers = [payload, ...state.followers];
+        if (data.is_follower === false) {
+          state.followers = [data, ...state.followers];
           const follower = state.followers.find(
-            (follower) => follower.id === payload.id
+            (follower) => follower.id === data.id
           );
           follower.is_follower = true;
           alert("팔로우!");
-        } else if (payload.is_follower === true) {
-          state.followers = [payload, ...state.followers];
+        } else if (data.is_follower === true) {
+          state.followers = [data, ...state.followers];
           const follower = state.followers.find(
-            (follower) => follower.id === payload.id
+            (follower) => follower.id === data.id
           );
           follower.is_follower = false;
           state.followers = state.followers.filter(
-            (follower) => follower.id !== payload.id
+            (follower) => follower.id !== data.id
           );
           alert("언팔로우!");
         }
       }
+    },
+    setFollowee(state, action) {
+      const { payload } = action;
+
+      state.followees = payload;
+    },
+    setFollower(state, action) {
+      const { payload } = action;
+      state.followers = payload;
     },
     setConversations(state, action) {
       const { payload } = action;
@@ -74,7 +86,7 @@ const userSlice = createSlice({
       const {
         payload: { data, page },
       } = action;
-      console.log(data, page);
+
       if (page === 1) {
         state.messages = data;
         state.page = 1;
@@ -93,6 +105,9 @@ export const {
   setConversations,
   setConversation,
   setMessage,
+  increasePage,
+  setFollowee,
+  setFollower,
 } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
@@ -135,11 +150,46 @@ export const toggleFollow = (user) => async (dispatch, getState) => {
     const {
       data: { id },
     } = await api.follow(userId, token);
-    const {
-      data: { is_follower },
-    } = await api.getUser(id);
+    const { data } = await api.getUser(id);
+    console.log(data);
+    dispatch(setFollow({ data }));
+  } catch (e) {
+    console.warn(e);
+  }
+};
 
-    dispatch(setFollow({ id, is_follower }));
+export const getFollowee = () => async (dispatch, getState) => {
+  const {
+    usersReducer: {
+      token,
+      user: { id },
+    },
+  } = getState();
+
+  const myPk = id;
+  try {
+    const {
+      data: { followee },
+    } = await api.myFollowee(myPk, token);
+    dispatch(setFollowee(followee));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const getFollower = () => async (dispatch, getState) => {
+  const {
+    usersReducer: {
+      token,
+      user: { id },
+    },
+  } = getState();
+
+  const myPk = id;
+  try {
+    const { data } = await api.myFollower(myPk, token);
+    const follower = data.map((d) => d.follower);
+    dispatch(setFollower(follower));
   } catch (e) {
     console.warn(e);
   }

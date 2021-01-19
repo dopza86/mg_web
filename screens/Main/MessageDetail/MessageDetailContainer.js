@@ -10,12 +10,14 @@ export default ({
   goConversation,
   getMessage,
   page,
+  messages,
+  increasePage,
 }) => {
   const dispatch = useDispatch();
   const {
     params: { token, user },
   } = route;
-  console.log(page);
+
   const userId = user.id;
   const conversationId = conversations.id;
   useEffect(() => {
@@ -25,12 +27,18 @@ export default ({
     getMessage(1);
   }, [conversations]);
 
+  useEffect(() => {
+    getMessage(page);
+  }, [page]);
+
   return (
     <MessageDetailPresenter
       token={token}
       postUser={user}
       me={me}
       conversationId={conversationId}
+      increasePage={increasePage}
+      messages={messages}
     />
   );
 };

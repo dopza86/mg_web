@@ -4,14 +4,16 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { Text } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { sendMessage } from "../../../redux/usersSlice";
 
-const Container = styled.View`
+const MessageContainer = styled.View`
   flex: 1;
-  justify-content: center;
+
   align-items: center;
 `;
+const MessageTextContainer = styled.View``;
+const MessageText = styled.Text``;
 const Touchable = styled.TouchableOpacity``;
 const IconsContainer = styled.View`
   flex-direction: row;
@@ -43,7 +45,14 @@ const TextInput = styled.TextInput`
   padding-left: 5px;
 `;
 
-export default ({ token, postUser, conversationId, me }) => {
+export default ({
+  token,
+  postUser,
+  conversationId,
+  me,
+  increasePage,
+  messages,
+}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [comment, setComments] = useState("");
@@ -61,9 +70,18 @@ export default ({ token, postUser, conversationId, me }) => {
           <Back>뒤로가기</Back>
         </IconsContainer>
       </Touchable>
-      <Container>
-        <Text>{postUser.username}</Text>
-      </Container>
+      <ScrollView>
+        <MessageContainer>
+          {messages.map((message) => (
+            <MessageTextContainer>
+              <MessageText>
+                {message.message}
+                {message.user.username}{" "}
+              </MessageText>
+            </MessageTextContainer>
+          ))}
+        </MessageContainer>
+      </ScrollView>
       <TextInputContainer>
         <TextInput
           placeholder="메시지를 입력하세요"

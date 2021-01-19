@@ -27,8 +27,10 @@ export default {
       token
     ),
 
-  myFollow: (form, token) =>
-    callApi("get", "/follow_relation/my_follow/", form, token),
+  myFollowee: (myPk, token) =>
+    callApi("get", `/follow_relation/my_followee/?pk=${myPk}`, null, token),
+  myFollower: (myPk, token) =>
+    callApi("get", `/follow_relation/my_follower/?pk=${myPk}`, null, token),
   posts: (page = 1, token) =>
     callApi("get", `/posts/?page=${page}`, null, token),
   search: (form, token) => callApi("post", "/posts/search/", form, token),
