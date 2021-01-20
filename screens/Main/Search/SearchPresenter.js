@@ -10,10 +10,10 @@ import {
   TouchableOpacity,
   Switch,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 
 import SmallPostCard from "../../../components/SmallPostCard";
-import { ScrollView } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("screen");
 
@@ -139,7 +139,7 @@ const SwitchText = styled.Text`
 const Results = styled.View`
   margin-top: 25px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
 `;

@@ -11,6 +11,7 @@ const userSlice = createSlice({
     followees: [],
     conversations: [],
     messages: [],
+    myPost: [],
     page: 1,
   },
 
@@ -94,6 +95,11 @@ const userSlice = createSlice({
         state.messages = [...state.messages, ...data];
       }
     },
+    setMyPost(state, action) {
+      const { payload } = action;
+
+      state.myPost = payload;
+    },
   },
 });
 
@@ -108,6 +114,7 @@ export const {
   increasePage,
   setFollowee,
   setFollower,
+  setMyPost,
 } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
@@ -151,7 +158,7 @@ export const toggleFollow = (user) => async (dispatch, getState) => {
       data: { id },
     } = await api.follow(userId, token);
     const { data } = await api.getUser(id);
-    console.log(data);
+
     dispatch(setFollow({ data }));
   } catch (e) {
     console.warn(e);
@@ -239,6 +246,15 @@ export const getMessage = (page) => async (dispatch, getState) => {
   try {
     const { data } = await api.getMessage(conversationId, token, page);
     dispatch(setMessage({ data, page }));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const getMyPost = (pk) => async (dispatch, getState) => {
+  try {
+    const { data } = await api.myPost(pk);
+    dispatch(setMyPost(data));
   } catch (e) {
     console.warn(e);
   }
