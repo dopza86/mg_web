@@ -15,6 +15,7 @@ import Search from "../screens/Main/Search";
 import Profile from "../screens/Main/Profile";
 import CommentDetail from "../screens/Main/CommentDetail";
 import CommentEdit from "../screens/Main/CommentEdit";
+import EditProfile from "../screens/Main/EditProfile";
 
 const TabsNavigator = createBottomTabNavigator();
 
@@ -101,6 +102,11 @@ export default () => (
     <MainNavigator.Screen
       name="MessageDetail"
       component={MessageDetail}
+      options={{ headerShown: false }}
+    />
+    <MainNavigator.Screen
+      name="EditProfile"
+      component={EditProfile}
       options={{ headerShown: false }}
     />
   </MainNavigator.Navigator>

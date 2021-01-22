@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components/native";
 import { Dimensions, Image, ScrollView } from "react-native";
-import SmallPostCard from "../../../components/SmallPostCard";
+
+import ProfilePostCard from "./ProfilePostCard";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -49,6 +51,7 @@ const PostContainer = styled.View`
   flex-direction: row;
 `;
 export default ({ followees, followers, myPost, user }) => {
+  const navigation = useNavigation();
   return (
     <>
       <ScrollView>
@@ -75,13 +78,13 @@ export default ({ followees, followers, myPost, user }) => {
               <Text>팔로잉</Text>
             </HeaderTextContainer>
           </HeaderContainer>
-          <EditProfileBtn>
+          <EditProfileBtn onPress={() => navigation.navigate("EditProfile")}>
             <BtnText>프로필 수정</BtnText>
           </EditProfileBtn>
         </Container>
         <PostContainer>
           {myPost.map((post) => (
-            <SmallPostCard
+            <ProfilePostCard
               key={post.id}
               id={post.id}
               user={post.user}

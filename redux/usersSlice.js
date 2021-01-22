@@ -100,6 +100,12 @@ const userSlice = createSlice({
 
       state.myPost = payload;
     },
+    setLoadingTrue(state) {
+      state.loading = true;
+    },
+    setLoadingFalse(state) {
+      state.loading = false;
+    },
   },
 });
 
@@ -115,6 +121,8 @@ export const {
   setFollowee,
   setFollower,
   setMyPost,
+  setLoadingTrue,
+  setLoadingFalse,
 } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
@@ -254,6 +262,7 @@ export const getMessage = (page) => async (dispatch, getState) => {
 export const getMyPost = (pk) => async (dispatch, getState) => {
   try {
     const { data } = await api.myPost(pk);
+    console.log(data);
     dispatch(setMyPost(data));
   } catch (e) {
     console.warn(e);

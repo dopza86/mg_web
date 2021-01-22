@@ -5,7 +5,7 @@ const callApi = async (method, path, data, jwt) => {
     Authorization: jwt,
     "Content-Type": "application/json",
   };
-  const baseUrl = "http://5e2781951895.ngrok.io/api/v1";
+  const baseUrl = "http://127.0.0.1:8000/api/v1";
   const fullUrl = `${baseUrl}${path}`;
   if (method === "get" || method === "delete") {
     return axios[method](fullUrl, { headers });
@@ -76,4 +76,6 @@ export default {
       token
     ),
   myPost: (pk) => callApi("get", `/posts/my_post/?user_pk=${pk}`, null, null),
+  update_user: (userId, form, token) =>
+    callApi("put", `/users/${userId}/update_user/`, form, token),
 };

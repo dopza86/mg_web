@@ -21,7 +21,7 @@ const SmallPostPhoto = ({ photos }) => {
   return (
     <PhotosContainer>
       {photos.length === 0 ? (
-        <SlideImage source={require("../web/loginBG.jpg")} />
+        <SlideImage source={require("../../../web/loginBG.jpg")} />
       ) : (
         <Swiper
           controlsProps={{
@@ -33,7 +33,7 @@ const SmallPostPhoto = ({ photos }) => {
             <SlideImage
               key={photo.id}
               source={{
-                uri: photo.file,
+                uri: `http://127.0.0.1:8000${photo.file}`,
               }}
             />
           ))}

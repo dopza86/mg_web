@@ -21,7 +21,6 @@ export default ({
   useEffect(() => {
     getMyPost(user.id);
   }, []);
-  console.log(myPost);
 
   return (
     <ProfilePresenter
@@ -29,6 +28,7 @@ export default ({
       followees={followees}
       followers={followers}
       myPost={myPost}
+      token={token}
     />
   );
 };

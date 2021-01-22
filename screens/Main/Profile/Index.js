@@ -7,7 +7,16 @@ import {
   getFollower,
   getMyPost,
 } from "../../../redux/usersSlice";
-import { searchPost } from "../../../redux/postsSlice";
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getFollowee: () => dispatch(getFollowee()),
+    getFollower: () => dispatch(getFollower()),
+    getMe: () => dispatch(getMe()),
+    getMyPost: (pk) => dispatch(getMyPost(pk)),
+  };
+}
+
 function mapStateToProps(state) {
   return {
     token: state.usersReducer.token,
@@ -15,14 +24,7 @@ function mapStateToProps(state) {
     followers: state.usersReducer.followers,
     user: state.usersReducer.user,
     myPost: state.usersReducer.myPost,
-  };
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    getFollowee: () => dispatch(getFollowee()),
-    getFollower: () => dispatch(getFollower()),
-    getMe: () => dispatch(getMe()),
-    getMyPost: (pk) => dispatch(getMyPost(pk)),
+    loading: state.usersReducer.loading,
   };
 }
 
