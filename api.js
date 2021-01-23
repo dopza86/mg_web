@@ -76,6 +76,8 @@ export default {
       token
     ),
   myPost: (pk) => callApi("get", `/posts/my_post/?user_pk=${pk}`, null, null),
-  update_user: (userId, form, token) =>
+  updateUser: (userId, form, token) =>
     callApi("put", `/users/${userId}/update_user/`, form, token),
+  updatePassword: (form, token) =>
+    callApi("post", `/rest-auth/password/change/`, form, token),
 };

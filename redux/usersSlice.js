@@ -12,6 +12,8 @@ const userSlice = createSlice({
     conversations: [],
     messages: [],
     myPost: [],
+    myAvatar: [],
+    myInfo: [],
     page: 1,
   },
 
@@ -27,6 +29,14 @@ const userSlice = createSlice({
     },
     me(state, action) {
       state.user = action.payload.user;
+    },
+    setMyAvatar(state, action) {
+      const { payload } = action;
+      state.myAvatar = payload;
+    },
+    setMyInfo(state, action) {
+      const { payload } = action;
+      state.myInfo = payload;
     },
     setFollow(state, action) {
       const {
@@ -123,6 +133,8 @@ export const {
   setMyPost,
   setLoadingTrue,
   setLoadingFalse,
+  setMyAvatar,
+  setMyInfo,
 } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
@@ -148,6 +160,7 @@ export const getMe = () => async (dispatch, getState) => {
   } = getState();
   try {
     const { data } = await api.getUser(pk);
+
     dispatch(me({ user: data }));
   } catch (e) {
     console.warn(e);
@@ -262,10 +275,34 @@ export const getMessage = (page) => async (dispatch, getState) => {
 export const getMyPost = (pk) => async (dispatch, getState) => {
   try {
     const { data } = await api.myPost(pk);
-    console.log(data);
+
     dispatch(setMyPost(data));
   } catch (e) {
     console.warn(e);
+  }
+};
+
+export const changeAvatar = (data) => async (dispatch, getState) => {
+  const userData = {
+    avatar: `http://127.0.0.1:8000${data.avatar}`,
+  };
+  dispatch(setMyAvatar(userData));
+};
+
+export const editUserInfo = (userId, form, token) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const {
+      data: { bio, email },
+    } = await api.updateUser(userId, form, token);
+
+    dispatch(setMyInfo({ bio, email }));
+  } catch (e) {
+    console.warn(e);
+  } finally {
+    alert("변경완료");
   }
 };
 

@@ -11,6 +11,7 @@ export default ({
   token,
   getMyPost,
   myPost,
+  getMe,
 }) => {
   useEffect(() => {
     getFollowee();
@@ -20,6 +21,9 @@ export default ({
   }, []);
   useEffect(() => {
     getMyPost(user.id);
+  }, []);
+  useEffect(() => {
+    getMe();
   }, []);
 
   return (
