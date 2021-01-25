@@ -9,7 +9,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import colors from "../colors";
 import Post from "../screens/Main/Post";
-import Message from "../screens/Main/Message";
+import NewPost from "../screens/Main/NewPost";
 import MessageDetail from "../screens/Main/MessageDetail";
 import Search from "../screens/Main/Search";
 import Profile from "../screens/Main/Profile";
@@ -70,7 +70,7 @@ const Tabs = () => (
     })}
   >
     <TabsNavigator.Screen name="포스트" component={Post} />
-    <TabsNavigator.Screen name="작성하기" component={Message} />
+    <TabsNavigator.Screen name="작성하기" component={NewPost} />
     <TabsNavigator.Screen name="검색" component={Search} />
     <TabsNavigator.Screen name="마이페이지" component={Profile} />
   </TabsNavigator.Navigator>

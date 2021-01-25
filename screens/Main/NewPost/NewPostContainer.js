@@ -1,17 +1,10 @@
-import React, { useEffect } from "react";
-import EditProfilePresenter from "./EditProfilePresenter";
+import React, { useState, useEffect } from "react";
+import NewPostPresenter from "./NewPostPresenter";
+import * as ImagePicker from "expo-image-picker";
+import api from "../../../api";
+import { Button, Image, View, Platform } from "react-native";
 
-export default ({ token, user, getMe, myAvatar, myInfo }) => {
-  useEffect(() => {
-    getMe();
-  }, []);
-  useEffect(() => {
-    getMe();
-  }, [myAvatar]);
-  useEffect(() => {
-    getMe();
-  }, [myInfo]);
-
+export default ({ token, writePost, writePhoto }) => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
@@ -37,17 +30,28 @@ export default ({ token, user, getMe, myAvatar, myInfo }) => {
     });
 
     const { selected } = result;
-    // const form = { file: selected, post: 1 };
+
     const uri = selected.map((s) => s.uri);
-    var i;
-    for (i = 0; i < uri.length; i++) {
-      var form = { file: uri[i], post: 1 };
-      var data = await api.updatePhotos(form, token);
-      if (!result.cancelled) {
-        setImage(uri[i]);
-      }
+    writePost(uri);
+    if (!result.cancelled) {
+      setImage(uri[0]);
     }
+    // var i;
+    // for (i = 0; i < uri.length; i++) {
+    //   writePost(uri[i]);
+    //   if (!result.cancelled) {
+    //     setImage(uri[i]);
+    //   }
+    // }
   };
 
-  return <EditProfilePresenter token={token} user={user} />;
+  console.log(writePhoto);
+  return (
+    <NewPostPresenter
+      token={token}
+      pickImage={pickImage}
+      image={image}
+      images={writePhoto}
+    />
+  );
 };

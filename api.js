@@ -32,8 +32,8 @@ export default {
   myFollower: (myPk, token) =>
     callApi("get", `/follow_relation/my_follower/?pk=${myPk}`, null, token),
   posts: (page = 1, token) =>
-    callApi("get", `/posts/?page=${page}`, null, token),
-  search: (form, token) => callApi("post", "/posts/search/", form, token),
+    callApi("get", `/posts/post/?page=${page}`, null, token),
+  search: (form, token) => callApi("post", "/posts/post/search/", form, token),
   handleLike: (postId, userId, token) =>
     callApi(
       "get",
@@ -75,9 +75,11 @@ export default {
       null,
       token
     ),
-  myPost: (pk) => callApi("get", `/posts/my_post/?user_pk=${pk}`, null, null),
+  myPost: (pk) =>
+    callApi("get", `/posts/post/my_post/?user_pk=${pk}`, null, null),
   updateUser: (userId, form, token) =>
     callApi("put", `/users/${userId}/update_user/`, form, token),
   updatePassword: (form, token) =>
     callApi("post", `/rest-auth/password/change/`, form, token),
+  updatePhotos: (form, token) => callApi("post", `/posts/photo/`, form, token),
 };

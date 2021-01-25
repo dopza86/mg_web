@@ -102,6 +102,7 @@ export default ({ token, user }) => {
     });
 
     const { uri } = result;
+
     const form = {
       username: user.username,
       password: "password",
@@ -114,7 +115,7 @@ export default ({ token, user }) => {
     if (status === 200) {
       dispatch(changeAvatar(data));
     } else {
-      alert("업데이트할수 업습니다");
+      alert("업데이트할수 없습니다");
     }
 
     if (!result.cancelled) {

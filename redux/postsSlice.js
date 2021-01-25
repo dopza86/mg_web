@@ -13,6 +13,7 @@ const postsSlice = createSlice({
     filtered: [],
     filteredPage: 1,
     loading: false,
+    writePhoto: [],
   },
   reducers: {
     setExplorePosts(state, action) {
@@ -120,6 +121,12 @@ const postsSlice = createSlice({
     setLoadingFalse(state) {
       state.loading = false;
     },
+    setWritePhoto(state, action) {
+      state.writePhoto = [];
+      const { payload } = action;
+      console.log(payload);
+      state.writePhoto = [...payload];
+    },
   },
 });
 
@@ -138,6 +145,7 @@ export const {
   loading,
   setLoadingTrue,
   setLoadingFalse,
+  setWritePhoto,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -273,6 +281,11 @@ export const searchPost = (form, token) => async (dispatch, getState) => {
   } finally {
     dispatch(setLoadingFalse());
   }
+};
+
+export const writePost = (data) => async (dispatch, getState) => {
+  // console.log(data);
+  dispatch(setWritePhoto(data));
 };
 
 export default postsSlice.reducer;
