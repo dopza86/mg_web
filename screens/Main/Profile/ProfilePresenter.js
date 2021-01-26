@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { Dimensions, Image, ScrollView } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 import ProfilePostCard from "./ProfilePostCard";
 import { useNavigation } from "@react-navigation/native";
@@ -49,11 +50,33 @@ const PostContainer = styled.View`
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const Back = styled.Text`
+  padding-top: 4px;
+`;
+const IconsContainer = styled.View`
+  flex-direction: row;
+  margin-bottom: 5px;
+`;
+const IconContainer = styled.View`
+  margin-right: 10px;
+  align-items: center;
 `;
 export default ({ followees, followers, myPost, user }) => {
   const navigation = useNavigation();
   return (
     <>
+      {" "}
+      <Touchable onPress={() => navigation.goBack()}>
+        <IconsContainer>
+          <IconContainer>
+            <Ionicons name="arrow-back" size={24} color="black" />
+          </IconContainer>
+          <Back>뒤로가기</Back>
+        </IconsContainer>
+      </Touchable>
       <ScrollView>
         <Container>
           <HeaderContainer>

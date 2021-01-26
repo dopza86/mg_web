@@ -109,5 +109,10 @@ export default () => (
       component={EditProfile}
       options={{ headerShown: false }}
     />
+    <MainNavigator.Screen
+      name="Profile"
+      component={Profile}
+      options={{ headerShown: false }}
+    />
   </MainNavigator.Navigator>
 );

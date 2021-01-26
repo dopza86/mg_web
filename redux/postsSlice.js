@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../api";
+import { useNavigation } from "@react-navigation/native";
+
 const postsSlice = createSlice({
   name: "posts",
   initialState: {
@@ -13,7 +15,7 @@ const postsSlice = createSlice({
     filtered: [],
     filteredPage: 1,
     loading: false,
-    writePhoto: [],
+    addPhoto: [],
   },
   reducers: {
     setExplorePosts(state, action) {
@@ -121,11 +123,14 @@ const postsSlice = createSlice({
     setLoadingFalse(state) {
       state.loading = false;
     },
-    setWritePhoto(state, action) {
-      state.writePhoto = [];
+    setAddPhoto(state, action) {
+      state.addPhoto = [];
       const { payload } = action;
-      console.log(payload);
-      state.writePhoto = [...payload];
+
+      state.addPhoto = [...payload];
+    },
+    setCleanPhoto(state, action) {
+      state.addPhoto = [];
     },
   },
 });
@@ -145,7 +150,8 @@ export const {
   loading,
   setLoadingTrue,
   setLoadingFalse,
-  setWritePhoto,
+  setAddPhoto,
+  setCleanPhoto,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -283,9 +289,53 @@ export const searchPost = (form, token) => async (dispatch, getState) => {
   }
 };
 
-export const writePost = (data) => async (dispatch, getState) => {
+export const writePhoto = (data) => async (dispatch, getState) => {
   // console.log(data);
-  dispatch(setWritePhoto(data));
+  dispatch(setAddPhoto(data));
+};
+export const CleanPhoto = () => async (dispatch, getState) => {
+  dispatch(setCleanPhoto());
+};
+
+export const writePost = (tags, caption, location) => async (
+  dispatch,
+  getState
+) => {
+  const {
+    usersReducer: { token },
+    postsReducer: { addPhoto },
+  } = getState();
+
+  const tag = tags.split(",");
+  const newArr = tag.filter((element, i) => element !== "");
+
+  const form = {
+    tags: newArr,
+    caption: caption,
+    location: location,
+  };
+
+  try {
+    const {
+      data: { id },
+      status,
+    } = await api.updatePost(form, token);
+
+    if (status === 201) {
+      var i;
+      for (i = 0; i < addPhoto.length; i++) {
+        const form = { file: addPhoto[i], post: id };
+
+        const data = await api.updatePhotos(form, token);
+      }
+      alert("등록!");
+      dispatch(setCleanPhoto());
+    } else {
+      alert("등록할수없습니다");
+    }
+  } catch (e) {
+    console.warn(e);
+  }
 };
 
 export default postsSlice.reducer;

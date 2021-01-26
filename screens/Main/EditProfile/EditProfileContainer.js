@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Platform } from "react-native";
 import EditProfilePresenter from "./EditProfilePresenter";
 
 export default ({ token, user, getMe, myAvatar, myInfo }) => {

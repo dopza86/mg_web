@@ -82,4 +82,5 @@ export default {
   updatePassword: (form, token) =>
     callApi("post", `/rest-auth/password/change/`, form, token),
   updatePhotos: (form, token) => callApi("post", `/posts/photo/`, form, token),
+  updatePost: (form, token) => callApi("post", `/posts/post/`, form, token),
 };

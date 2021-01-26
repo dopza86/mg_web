@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
 import NewPostPresenter from "./NewPostPresenter";
 import * as ImagePicker from "expo-image-picker";
-import api from "../../../api";
-import { Button, Image, View, Platform } from "react-native";
+import { Platform } from "react-native";
 
-export default ({ token, writePost, writePhoto }) => {
+export default ({
+  token,
+  writePost,
+  addPhoto,
+  writePhoto,
+  CleanPhoto,
+  navigation,
+}) => {
   const [image, setImage] = useState(null);
-
+  const [tags, setTags] = useState("");
+  const [caption, setCaption] = useState("");
+  const [location, setLocation] = useState("");
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -18,6 +26,9 @@ export default ({ token, writePost, writePhoto }) => {
         }
       }
     })();
+  }, []);
+  useEffect(() => {
+    CleanPhoto();
   }, []);
 
   const pickImage = async () => {
@@ -32,10 +43,13 @@ export default ({ token, writePost, writePhoto }) => {
     const { selected } = result;
 
     const uri = selected.map((s) => s.uri);
-    writePost(uri);
-    if (!result.cancelled) {
-      setImage(uri[0]);
+
+    if (uri.length > 9) {
+      alert("사진은 9장까지 등록가능합니다");
+    } else {
+      writePhoto(uri);
     }
+
     // var i;
     // for (i = 0; i < uri.length; i++) {
     //   writePost(uri[i]);
@@ -45,13 +59,22 @@ export default ({ token, writePost, writePhoto }) => {
     // }
   };
 
-  console.log(writePhoto);
+  // console.log(writePhoto);
   return (
     <NewPostPresenter
       token={token}
       pickImage={pickImage}
       image={image}
-      images={writePhoto}
+      images={addPhoto}
+      tags={tags}
+      caption={caption}
+      location={location}
+      setTags={setTags}
+      setCaption={setCaption}
+      setLocation={setLocation}
+      CleanPhoto={CleanPhoto}
+      writePost={writePost}
+      navigation={navigation}
     />
   );
 };
