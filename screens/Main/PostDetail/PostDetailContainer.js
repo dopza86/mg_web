@@ -6,7 +6,7 @@ export default ({ route, user, token, getPost, post, likes, loading }) => {
     params: { postObj },
   } = route;
   const postId = postObj.id;
-  console.log(post);
+
   useEffect(() => {
     getPost(postId);
   }, []);

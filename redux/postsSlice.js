@@ -186,7 +186,7 @@ export const getPost = (postId) => async (dispatch, getState) => {
   try {
     dispatch(setLoadingTrue());
     const { data } = await api.post(postId);
-    console.log(data);
+
     dispatch(setPost(data));
   } catch (e) {
     console.warn(e);

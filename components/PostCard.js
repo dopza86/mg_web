@@ -19,7 +19,9 @@ const Header = styled.View`
   flex-direction: row;
   align-items: center;
 `;
-const Touchable = styled.TouchableOpacity``;
+const Touchable = styled.TouchableOpacity`
+  flex-direction: row;
+`;
 const FollwContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -77,13 +79,11 @@ const PostCard = ({
   return (
     <Container>
       <Header>
-        <Touchable>
+        <Touchable onPress={() => navigation.navigate("UserProfile", { user })}>
           <Image
             style={{ height: 40, width: 40, borderRadius: 20 }}
             source={{ uri: user.avatar }}
           />
-        </Touchable>
-        <Touchable>
           <HeaderUserContainer>
             <Bold>{user.username}</Bold>
             <Location>{location}</Location>

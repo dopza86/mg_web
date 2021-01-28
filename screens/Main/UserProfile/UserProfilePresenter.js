@@ -71,11 +71,11 @@ const IconContainer = styled.View`
 export default ({
   followees,
   followers,
-  myPost,
+  userPost,
   user,
   getPost,
-  myPostLength,
-  loadingMyPost,
+  userPostLength,
+  loadingUserPost,
 }) => {
   const navigation = useNavigation();
 
@@ -91,7 +91,7 @@ export default ({
         </IconsContainer>
       </Touchable>
       <ScrollView>
-        {loadingMyPost ? (
+        {loadingUserPost ? (
           <ActivityIndicator></ActivityIndicator>
         ) : (
           <>
@@ -106,7 +106,7 @@ export default ({
                   <Text>{user.bio}</Text>
                 </HeaderPhotoContainer>
                 <HeaderViewContainer>
-                  <LargeText>{myPostLength}</LargeText>
+                  <LargeText>{userPostLength}</LargeText>
                   <Text>포스트</Text>
                 </HeaderViewContainer>
                 <HeaderTextContainer>
@@ -118,14 +118,9 @@ export default ({
                   <Text>팔로잉</Text>
                 </HeaderTextContainer>
               </HeaderContainer>
-              <EditProfileBtn
-                onPress={() => navigation.navigate("EditProfile")}
-              >
-                <BtnText>프로필 수정</BtnText>
-              </EditProfileBtn>
             </Container>
             <PostContainer>
-              {myPost.map((post) => (
+              {userPost.map((post) => (
                 <ProfilePostCard
                   key={post.id}
                   id={post.id}

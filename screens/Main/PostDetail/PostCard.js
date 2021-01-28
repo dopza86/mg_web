@@ -93,29 +93,6 @@ const PostCard = ({
             <Location>{location}</Location>
           </HeaderUserContainer>
         </Touchable>
-
-        {user.id === me.id ? (
-          <>
-            <FollwContainer>
-              <FollweText>Me!</FollweText>
-            </FollwContainer>
-          </>
-        ) : (
-          <Touchable onPress={() => dispatch(toggleFollow(user))}>
-            {user.is_follower ? (
-              <>
-                <AntDesign name="check" size={24} color="green" />
-              </>
-            ) : (
-              <>
-                <FollwContainer>
-                  <Ionicons name="add" size={12} color="white" />
-                  <FollweText>팔로우</FollweText>
-                </FollwContainer>
-              </>
-            )}
-          </Touchable>
-        )}
       </Header>
       <PostPhoto photos={photos} />
       <InfoContainer>

@@ -17,6 +17,7 @@ import CommentDetail from "../screens/Main/CommentDetail";
 import CommentEdit from "../screens/Main/CommentEdit";
 import EditProfile from "../screens/Main/EditProfile";
 import PostDetail from "../screens/Main/PostDetail";
+import UserProfile from "../screens/Main/UserProfile";
 
 const TabsNavigator = createBottomTabNavigator();
 
@@ -118,6 +119,11 @@ export default () => (
     <MainNavigator.Screen
       name="PostDetail"
       component={PostDetail}
+      options={{ headerShown: false }}
+    />
+    <MainNavigator.Screen
+      name="UserProfile"
+      component={UserProfile}
       options={{ headerShown: false }}
     />
   </MainNavigator.Navigator>

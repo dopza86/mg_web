@@ -12,10 +12,13 @@ const userSlice = createSlice({
     conversations: [],
     messages: [],
     myPost: [],
+    userPost: [],
     myAvatar: [],
     myInfo: [],
     page: 1,
     loading: false,
+    loadingMyPost: true,
+    loadingUserPost: true,
   },
 
   reducers: {
@@ -110,11 +113,27 @@ const userSlice = createSlice({
       const { payload } = action;
 
       state.myPost = payload;
+      state.loadingMyPost = false;
+    },
+    setUserPost(state, action) {
+      const { payload } = action;
+
+      state.userPost = payload;
+      state.loadingUserPost = false;
+    },
+    setLoadingUserPostTrue(state) {
+      state.loadingUserPost = true;
     },
     setLoadingTrue(state) {
       state.loading = true;
     },
     setLoadingFalse(state) {
+      state.loading = false;
+    },
+    setLoadingMyPostTrue(state) {
+      state.loading = true;
+    },
+    setLoadingMyPostFalse(state) {
       state.loading = false;
     },
   },
@@ -136,6 +155,10 @@ export const {
   setLoadingFalse,
   setMyAvatar,
   setMyInfo,
+  setLoadingMyPostTrue,
+  setLoadingMyPostFalse,
+  setUserPost,
+  setLoadingUserPostTrue,
 } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
@@ -275,9 +298,21 @@ export const getMessage = (page) => async (dispatch, getState) => {
 
 export const getMyPost = (pk) => async (dispatch, getState) => {
   try {
+    dispatch(setLoadingMyPostTrue());
     const { data } = await api.myPost(pk);
 
     dispatch(setMyPost(data));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const getUserPost = (userId) => async (dispatch, getState) => {
+  try {
+    dispatch(setLoadingUserPostTrue());
+    const { data } = await api.myPost(userId);
+
+    dispatch(setUserPost(data));
   } catch (e) {
     console.warn(e);
   }

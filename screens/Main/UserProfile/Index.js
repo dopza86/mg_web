@@ -1,11 +1,11 @@
-import ProfileContainer from "./ProfileContainer";
+import UserProfileContainer from "./UserProfileContainer";
 import { connect } from "react-redux";
 
 import {
   getMe,
   getFollowee,
   getFollower,
-  getMyPost,
+  getUserPost,
   getPost,
 } from "../../../redux/usersSlice";
 
@@ -14,7 +14,7 @@ function mapDispatchToProps(dispatch) {
     getFollowee: () => dispatch(getFollowee()),
     getFollower: () => dispatch(getFollower()),
     getMe: () => dispatch(getMe()),
-    getMyPost: (pk) => dispatch(getMyPost(pk)),
+    getUserPost: (userId) => dispatch(getUserPost(userId)),
   };
 }
 
@@ -24,11 +24,14 @@ function mapStateToProps(state) {
     followees: state.usersReducer.followees,
     followers: state.usersReducer.followers,
     user: state.usersReducer.user,
-    myPost: state.usersReducer.myPost,
+    userPost: state.usersReducer.userPost,
     loading: state.usersReducer.loading,
     likes: state.postsReducer.likes,
-    loadingMyPost: state.usersReducer.loadingMyPost,
+    loadingUserPost: state.usersReducer.loadingUserPost,
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserProfileContainer);

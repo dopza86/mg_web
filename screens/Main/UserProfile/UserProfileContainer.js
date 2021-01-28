@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
 
-import ProfilePresenter from "./ProfilePresenter";
+import UserProfilePresenter from "./UserProfilePresenter";
 
 export default ({
   getFollowee,
   getFollower,
   followees,
   followers,
-  user,
+  loadingUserPost,
   token,
-  getMyPost,
-  myPost,
+  getUserPost,
+  userPost,
   getMe,
   likes,
-  loadingMyPost,
+  route,
 }) => {
+  const {
+    params: { user },
+  } = route;
   useEffect(() => {
     getFollowee();
   }, []);
@@ -22,24 +25,25 @@ export default ({
     getFollower();
   }, []);
   useEffect(() => {
-    getMyPost(user.id);
+    getUserPost(user.id);
   }, []);
   useEffect(() => {
-    getMyPost(user.id);
+    getUserPost(user.id);
   }, [likes]);
   useEffect(() => {
     getMe();
   }, []);
 
+  console.log(userPost);
   return (
-    <ProfilePresenter
+    <UserProfilePresenter
       user={user}
       followees={followees}
       followers={followers}
-      myPost={myPost}
+      userPost={userPost}
+      userPostLength={userPost.length === 0 ? 0 : userPost[0].my_posts_length}
       token={token}
-      myPostLength={myPost.length === 0 ? 0 : myPost[0].my_posts_length}
-      loadingMyPost={loadingMyPost}
+      loadingUserPost={loadingUserPost}
     />
   );
 };
