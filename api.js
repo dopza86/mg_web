@@ -15,7 +15,7 @@ const callApi = async (method, path, data, jwt) => {
 };
 
 export default {
-  createAccount: (form) => callApi("post", "/users/", form),
+  createAccount: (form) => callApi("post", "/rest-auth/registration/", form),
   // login: (form) => callApi("post", "/users/login/", form),
   login: (form) => callApi("post", "/rest-auth/login/", form),
   getUser: (pk) => callApi("get", `/users/${pk}`, pk),
@@ -33,6 +33,7 @@ export default {
     callApi("get", `/follow_relation/my_follower/?pk=${myPk}`, null, token),
   posts: (page = 1, token) =>
     callApi("get", `/posts/post/?page=${page}`, null, token),
+  post: (postId) => callApi("get", `/posts/post/${postId}`),
   search: (form, token) => callApi("post", "/posts/post/search/", form, token),
   handleLike: (postId, userId, token) =>
     callApi(

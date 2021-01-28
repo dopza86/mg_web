@@ -87,7 +87,7 @@ export default function ImagePickerExample({
         setCaption("");
         setLocation("");
         await writePost(tags, caption, location);
-        console.log(navigation);
+
         navigation.navigate("Profile");
       } else {
         return;

@@ -14,7 +14,7 @@ export default ({
 }) => {
   const navigation = useNavigation();
   const {
-    params: { post, token },
+    params: { post, token, avatar },
   } = route;
 
   useEffect(() => {
@@ -37,6 +37,7 @@ export default ({
       token={token}
       user={user}
       increaseCommentsPage={increaseCommentsPage}
+      avatar={avatar}
     />
   );
 };

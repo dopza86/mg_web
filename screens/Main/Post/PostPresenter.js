@@ -97,7 +97,11 @@ export default ({ posts, increasePage, token, me }) => {
                   ) : (
                     <Touchable
                       onPress={() =>
-                        navigation.navigate("CommentDetail", { post, token })
+                        navigation.navigate("CommentDetail", {
+                          post,
+                          token,
+                          avatar: post.user.avatar,
+                        })
                       }
                     >
                       <CommentCount>

@@ -6,6 +6,7 @@ import {
   getFollowee,
   getFollower,
   getMyPost,
+  getPost,
 } from "../../../redux/usersSlice";
 
 function mapDispatchToProps(dispatch) {
@@ -25,6 +26,7 @@ function mapStateToProps(state) {
     user: state.usersReducer.user,
     myPost: state.usersReducer.myPost,
     loading: state.usersReducer.loading,
+    likes: state.postsReducer.likes,
   };
 }
 

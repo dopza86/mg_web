@@ -132,6 +132,7 @@ export default ({
   token,
   user,
   increaseCommentsPage,
+  avatar,
 }) => {
   const dispatch = useDispatch();
 
@@ -143,7 +144,7 @@ export default ({
 
   return (
     <>
-      <Total key={post.id}>
+      <Total>
         <Touchable onPress={() => navigation.goBack()}>
           <IconsContainer>
             <IconContainer>
@@ -158,7 +159,7 @@ export default ({
             <UserTouchable>
               <Image
                 style={{ height: 35, width: 35, borderRadius: 20 }}
-                source={{ uri: post.user.avatar }}
+                source={{ uri: avatar }}
               />
               <HeaderUserContainer>
                 <Bold>{post.user.username}</Bold>

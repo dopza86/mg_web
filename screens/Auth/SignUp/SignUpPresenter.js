@@ -26,21 +26,30 @@ export default ({
   setLastName,
   username,
   setUsername,
-  password,
-  setPassword,
+  password1,
+  setPassword1,
   loading,
   handleSubmit,
+  password2,
+  setPassword2,
+  email,
+  setEmail,
 }) => {
   return (
     <Container>
       <InputContainer>
-        <Input value={lastName} placeholder="성" stateFn={setLastName} />
-        <Input value={firstName} placeholder="이름" stateFn={setFirstName} />
         <Input value={username} placeholder="아이디" stateFn={setUsername} />
+        <Input value={email} placeholder="이메일" stateFn={setEmail} />
         <Input
-          value={password}
+          value={password1}
           placeholder="비밀번호"
-          stateFn={setPassword}
+          stateFn={setPassword1}
+          isPassword={true}
+        />
+        <Input
+          value={password2}
+          placeholder="비밀번호 확인"
+          stateFn={setPassword2}
           isPassword={true}
         />
       </InputContainer>

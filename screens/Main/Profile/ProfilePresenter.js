@@ -25,6 +25,10 @@ const HeaderTextContainer = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
+const HeaderViewContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
 
 const Touchable = styled.TouchableOpacity``;
 
@@ -64,8 +68,9 @@ const IconContainer = styled.View`
   margin-right: 10px;
   align-items: center;
 `;
-export default ({ followees, followers, myPost, user }) => {
+export default ({ followees, followers, myPost, user, getPost }) => {
   const navigation = useNavigation();
+
   return (
     <>
       {" "}
@@ -88,10 +93,10 @@ export default ({ followees, followers, myPost, user }) => {
               <Text>{user.username}</Text>
               <Text>{user.bio}</Text>
             </HeaderPhotoContainer>
-            <HeaderTextContainer>
+            <HeaderViewContainer>
               <LargeText>{myPost.length}</LargeText>
               <Text>포스트</Text>
-            </HeaderTextContainer>
+            </HeaderViewContainer>
             <HeaderTextContainer>
               <LargeText>{followees.length}</LargeText>
               <Text>팔로워</Text>
@@ -120,6 +125,7 @@ export default ({ followees, followers, myPost, user }) => {
               created={post.created}
               isLiked={post.is_liked}
               like_count={post.like_list ? post.like_list.count_users : 0}
+              getPost={getPost}
             />
           ))}
         </PostContainer>

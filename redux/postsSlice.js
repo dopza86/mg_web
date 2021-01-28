@@ -14,8 +14,9 @@ const postsSlice = createSlice({
     commentsPage: 1,
     filtered: [],
     filteredPage: 1,
-    loading: false,
+    loading: true,
     addPhoto: [],
+    post: [],
   },
   reducers: {
     setExplorePosts(state, action) {
@@ -26,6 +27,11 @@ const postsSlice = createSlice({
       } else {
         state.explore.posts = [...state.explore.posts, ...payload.posts];
       }
+    },
+    setPost(state, action) {
+      const { payload } = action;
+      state.post = payload;
+      state.loading = false;
     },
 
     increasePage(state, action) {
@@ -152,6 +158,7 @@ export const {
   setLoadingFalse,
   setAddPhoto,
   setCleanPhoto,
+  setPost,
 } = postsSlice.actions;
 
 export const getPosts = (page) => async (dispatch, getState) => {
@@ -175,14 +182,26 @@ export const getPosts = (page) => async (dispatch, getState) => {
   }
 };
 
+export const getPost = (postId) => async (dispatch, getState) => {
+  try {
+    dispatch(setLoadingTrue());
+    const { data } = await api.post(postId);
+    console.log(data);
+    dispatch(setPost(data));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
 export const toggleLike = (postId) => async (dispatch, getState) => {
   const {
     usersReducer: { pk, token },
   } = getState();
+
   dispatch(setLike({ postId }));
 
   try {
-    await api.handleLike(postId, pk, token);
+    const data = await api.handleLike(postId, pk, token);
   } catch (e) {
     console.warn(e);
   }
@@ -290,7 +309,6 @@ export const searchPost = (form, token) => async (dispatch, getState) => {
 };
 
 export const writePhoto = (data) => async (dispatch, getState) => {
-  // console.log(data);
   dispatch(setAddPhoto(data));
 };
 export const CleanPhoto = () => async (dispatch, getState) => {

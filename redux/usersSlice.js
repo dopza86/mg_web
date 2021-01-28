@@ -15,6 +15,7 @@ const userSlice = createSlice({
     myAvatar: [],
     myInfo: [],
     page: 1,
+    loading: false,
   },
 
   reducers: {
@@ -42,7 +43,7 @@ const userSlice = createSlice({
       const {
         payload: { data },
       } = action;
-      // console.log(data.is_follower);
+
       const follower = state.followers.find(
         (follower) => follower.id === data.id
       );

@@ -9,11 +9,11 @@ const { width, height } = Dimensions.get("screen");
 
 const PhotosContainer = styled.View`
   width: 100%;
-  height: ${height / 4.5};
+  height: ${height / 6};
 `;
 
 const SlideImage = styled.Image`
-  height: ${height / 4.5};
+  height: ${height / 6};
 `;
 
 const SmallPostPhoto = ({ photos }) => {

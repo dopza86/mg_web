@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import Pt from "prop-types";
+import { Image } from "react-native";
 
 import Swiper from "react-native-web-swiper";
 import { Dimensions } from "react-native";
@@ -9,14 +10,14 @@ const { width, height } = Dimensions.get("screen");
 
 const PhotosContainer = styled.View`
   width: 100%;
-  height: ${height / 6};
+  height: ${height / 2.5};
 `;
 
 const SlideImage = styled.Image`
-  height: ${height / 6};
+  height: ${height / 2.5};
 `;
 
-const SmallPostPhoto = ({ photos }) => {
+const PostPhoto = ({ photos }) => {
   return (
     <PhotosContainer>
       {photos.length === 0 ? (
@@ -42,7 +43,7 @@ const SmallPostPhoto = ({ photos }) => {
   );
 };
 
-SmallPostPhoto.propTypes = {
+PostPhoto.propTypes = {
   photos: Pt.arrayOf(
     Pt.shape({
       file: Pt.string,
@@ -50,4 +51,4 @@ SmallPostPhoto.propTypes = {
   ),
 };
 
-export default SmallPostPhoto;
+export default PostPhoto;

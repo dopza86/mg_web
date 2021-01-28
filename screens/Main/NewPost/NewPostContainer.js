@@ -59,7 +59,6 @@ export default ({
     // }
   };
 
-  // console.log(writePhoto);
   return (
     <NewPostPresenter
       token={token}

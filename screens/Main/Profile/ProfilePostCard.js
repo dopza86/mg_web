@@ -1,4 +1,5 @@
-import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import React, { useRef } from "react";
 import styled from "styled-components/native";
 import ProfilePostPhoto from "./ProfilePostPhoto";
 
@@ -11,16 +12,21 @@ const Caption = styled.Text`
   margin: 5px 0px;
   font-size: 12px;
 `;
-const InfoContainer = styled.View`
+const InfoContainer = styled.TouchableOpacity`
   padding: 10px;
 `;
 
-const ProfilePostCard = ({ photos, caption }) => {
+const ProfilePostCard = ({ photos, caption, postObj }) => {
+  const navigation = useNavigation();
+
+  const onSubmit = () => {
+    navigation.navigate("PostDetail", { postObj });
+  };
   return (
     <>
       <Container>
         <ProfilePostPhoto photos={photos} />
-        <InfoContainer>
+        <InfoContainer onPress={() => onSubmit()}>
           <Caption>{caption}</Caption>
         </InfoContainer>
       </Container>

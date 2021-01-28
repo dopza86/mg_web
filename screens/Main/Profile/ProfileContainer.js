@@ -12,6 +12,7 @@ export default ({
   getMyPost,
   myPost,
   getMe,
+  likes,
 }) => {
   useEffect(() => {
     getFollowee();
@@ -22,6 +23,9 @@ export default ({
   useEffect(() => {
     getMyPost(user.id);
   }, []);
+  useEffect(() => {
+    getMyPost(user.id);
+  }, [likes]);
   useEffect(() => {
     getMe();
   }, []);
