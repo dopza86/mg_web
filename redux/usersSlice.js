@@ -15,6 +15,9 @@ const userSlice = createSlice({
     userPost: [],
     myAvatar: [],
     myInfo: [],
+    postUser: [],
+    userfollowers: [],
+    userfollowees: [],
     page: 1,
     loading: false,
     loadingMyPost: true,
@@ -33,6 +36,9 @@ const userSlice = createSlice({
     },
     me(state, action) {
       state.user = action.payload.user;
+    },
+    setpostUser(state, action) {
+      state.postUser = action.payload;
     },
     setMyAvatar(state, action) {
       const { payload } = action;
@@ -57,6 +63,7 @@ const userSlice = createSlice({
           const follower = state.followers.find(
             (follower) => follower.id === data.id
           );
+
           follower.is_follower = true;
           alert("팔로우!");
         } else if (data.is_follower === true) {
@@ -80,6 +87,15 @@ const userSlice = createSlice({
     setFollower(state, action) {
       const { payload } = action;
       state.followers = payload;
+    },
+    setUserFollowee(state, action) {
+      const { payload } = action;
+
+      state.userfollowees = payload;
+    },
+    setUserFollower(state, action) {
+      const { payload } = action;
+      state.userfollowers = payload;
     },
     setConversations(state, action) {
       const { payload } = action;
@@ -159,6 +175,9 @@ export const {
   setLoadingMyPostFalse,
   setUserPost,
   setLoadingUserPostTrue,
+  setpostUser,
+  setUserFollowee,
+  setUserFollower,
 } = userSlice.actions;
 
 export const userLogin = (form) => async (dispatch) => {
@@ -191,6 +210,16 @@ export const getMe = () => async (dispatch, getState) => {
   }
 };
 
+export const getPostUser = (postUserId) => async (dispatch, getState) => {
+  try {
+    const { data } = await api.getUser(postUserId);
+
+    dispatch(setpostUser(data));
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
 export const toggleFollow = (user) => async (dispatch, getState) => {
   const {
     usersReducer: { pk, token },
@@ -210,40 +239,57 @@ export const toggleFollow = (user) => async (dispatch, getState) => {
   }
 };
 
-export const getFollowee = () => async (dispatch, getState) => {
+export const getFollowee = (myPk) => async (dispatch, getState) => {
   const {
     usersReducer: {
       token,
       user: { id },
     },
   } = getState();
-
-  const myPk = id;
-  try {
-    const {
-      data: { followee },
-    } = await api.myFollowee(myPk, token);
-    dispatch(setFollowee(followee));
-  } catch (e) {
-    console.warn(e);
+  if (myPk === undefined) {
+    try {
+      const {
+        data: { followee },
+      } = await api.myFollowee(id, token);
+      dispatch(setFollowee(followee));
+    } catch (e) {
+      console.warn(e);
+    }
+  } else {
+    try {
+      const {
+        data: { followee },
+      } = await api.myFollowee(myPk, token);
+      dispatch(setUserFollowee(followee));
+    } catch (e) {
+      console.warn(e);
+    }
   }
 };
 
-export const getFollower = () => async (dispatch, getState) => {
+export const getFollower = (myPk) => async (dispatch, getState) => {
   const {
     usersReducer: {
       token,
       user: { id },
     },
   } = getState();
-
-  const myPk = id;
-  try {
-    const { data } = await api.myFollower(myPk, token);
-    const follower = data.map((d) => d.follower);
-    dispatch(setFollower(follower));
-  } catch (e) {
-    console.warn(e);
+  if (myPk === undefined) {
+    try {
+      const { data } = await api.myFollower(id, token);
+      const follower = data.map((d) => d.follower);
+      dispatch(setFollower(follower));
+    } catch (e) {
+      console.warn(e);
+    }
+  } else {
+    try {
+      const { data } = await api.myFollower(myPk, token);
+      const follower = data.map((d) => d.follower);
+      dispatch(setUserFollower(follower));
+    } catch (e) {
+      console.warn(e);
+    }
   }
 };
 

@@ -16,10 +16,10 @@ export default ({
   loadingMyPost,
 }) => {
   useEffect(() => {
-    getFollowee();
+    getFollowee(user.id);
   }, []);
   useEffect(() => {
-    getFollower();
+    getFollower(user.id);
   }, []);
   useEffect(() => {
     getMyPost(user.id);
@@ -27,6 +27,13 @@ export default ({
   useEffect(() => {
     getMyPost(user.id);
   }, [likes]);
+  useEffect(() => {
+    getMyPost(user.id);
+  }, [followees]);
+  useEffect(() => {
+    getMyPost(user.id);
+  }, [followers]);
+
   useEffect(() => {
     getMe();
   }, []);

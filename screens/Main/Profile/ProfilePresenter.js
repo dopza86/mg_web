@@ -109,11 +109,19 @@ export default ({
                   <LargeText>{myPostLength}</LargeText>
                   <Text>포스트</Text>
                 </HeaderViewContainer>
-                <HeaderTextContainer>
+                <HeaderTextContainer
+                  onPress={() =>
+                    navigation.navigate("FollowerList", { followees })
+                  }
+                >
                   <LargeText>{followees.length}</LargeText>
                   <Text>팔로워</Text>
                 </HeaderTextContainer>
-                <HeaderTextContainer>
+                <HeaderTextContainer
+                  onPress={() =>
+                    navigation.navigate("FolloweeList", { followers })
+                  }
+                >
                   <LargeText>{followers.length}</LargeText>
                   <Text>팔로잉</Text>
                 </HeaderTextContainer>

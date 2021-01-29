@@ -1,29 +1,35 @@
 import React, { useEffect } from "react";
+import api from "../../../api";
 
 import UserProfilePresenter from "./UserProfilePresenter";
 
 export default ({
   getFollowee,
   getFollower,
-  followees,
+
   followers,
   loadingUserPost,
   token,
   getUserPost,
   userPost,
-  getMe,
+  userfollowers,
+  userfollowees,
   likes,
   route,
+  getPostUser,
 }) => {
   const {
     params: { user },
   } = route;
+
+  const postUserId = user.id;
   useEffect(() => {
-    getFollowee();
+    getFollowee(postUserId);
   }, []);
   useEffect(() => {
-    getFollower();
+    getFollower(postUserId);
   }, []);
+
   useEffect(() => {
     getUserPost(user.id);
   }, []);
@@ -31,15 +37,25 @@ export default ({
     getUserPost(user.id);
   }, [likes]);
   useEffect(() => {
-    getMe();
-  }, []);
+    getUserPost(user.id);
+  }, [followers]);
 
-  console.log(userPost);
+  useEffect(() => {
+    getPostUser(postUserId);
+  }, []);
+  useEffect(() => {
+    getFollowee(postUserId);
+    getPostUser(postUserId);
+  }, [followers]);
+  console.log(followers);
+  const is_follower = followers.find((follower) => follower.id === user.id);
+  console.log(is_follower);
   return (
     <UserProfilePresenter
       user={user}
-      followees={followees}
-      followers={followers}
+      followers={userfollowers}
+      followees={userfollowees}
+      is_follower={is_follower === undefined ? false : true}
       userPost={userPost}
       userPostLength={userPost.length === 0 ? 0 : userPost[0].my_posts_length}
       token={token}

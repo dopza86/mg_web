@@ -24,8 +24,8 @@ const ImageSelectContainer = styled.View`
 `;
 const ImageBox = styled.View`
   align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
+  justify-content: center;
+  /* flex-direction: row; */
   flex-wrap: wrap;
   margin-bottom: 10px;
 `;
@@ -33,6 +33,8 @@ const ImageContainer = styled.View`
   width: 33%;
   max-width: 250px;
   padding: 10px;
+  justify-content: center;
+  align-items: center;
 `;
 const Button = styled.TouchableOpacity`
   width: 40%;

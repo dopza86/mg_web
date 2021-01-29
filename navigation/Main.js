@@ -18,6 +18,8 @@ import CommentEdit from "../screens/Main/CommentEdit";
 import EditProfile from "../screens/Main/EditProfile";
 import PostDetail from "../screens/Main/PostDetail";
 import UserProfile from "../screens/Main/UserProfile";
+import FollowerList from "../screens/Main/FollowerList";
+import FolloweeList from "../screens/Main/FolloweeList";
 
 const TabsNavigator = createBottomTabNavigator();
 
@@ -125,6 +127,16 @@ export default () => (
       name="UserProfile"
       component={UserProfile}
       options={{ headerShown: false }}
+    />
+    <MainNavigator.Screen
+      name="FollowerList"
+      component={FollowerList}
+      options={{ headerShown: true }}
+    />
+    <MainNavigator.Screen
+      name="FolloweeList"
+      component={FolloweeList}
+      options={{ headerShown: true }}
     />
   </MainNavigator.Navigator>
 );

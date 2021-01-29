@@ -69,26 +69,48 @@ const PostCard = ({
   like_count,
   token,
   me,
+  postObj,
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const goMessage = (token, user, me) => {
-    dispatch(goConversation(user.id));
-    navigation.navigate("MessageDetail", { token, user, me });
-  };
+  // const goMessage = (token, user, me) => {
+  //   dispatch(goConversation(user.id));
+  //   navigation.navigate("MessageDetail", { token, user, me });
+  // };
   return (
     <Container>
       <Header>
-        <Touchable onPress={() => navigation.navigate("UserProfile", { user })}>
-          <Image
-            style={{ height: 40, width: 40, borderRadius: 20 }}
-            source={{ uri: user.avatar }}
-          />
-          <HeaderUserContainer>
-            <Bold>{user.username}</Bold>
-            <Location>{location}</Location>
-          </HeaderUserContainer>
-        </Touchable>
+        {user.id === me.id ? (
+          <Touchable onPress={() => navigation.navigate("Profile")}>
+            <Image
+              style={{ height: 40, width: 40, borderRadius: 20 }}
+              source={{ uri: user.avatar }}
+            />
+            <HeaderUserContainer>
+              <Bold>{user.username}</Bold>
+              <Location>{location}</Location>
+            </HeaderUserContainer>
+          </Touchable>
+        ) : (
+          <Touchable
+            onPress={() =>
+              navigation.navigate("UserProfile", {
+                user,
+                is_follower: user.is_follower,
+                postObj,
+              })
+            }
+          >
+            <Image
+              style={{ height: 40, width: 40, borderRadius: 20 }}
+              source={{ uri: user.avatar }}
+            />
+            <HeaderUserContainer>
+              <Bold>{user.username}</Bold>
+              <Location>{location}</Location>
+            </HeaderUserContainer>
+          </Touchable>
+        )}
 
         {user.id === me.id ? (
           <>
@@ -125,13 +147,13 @@ const PostCard = ({
               />
             </IconContainer>
           </Touchable>
-          {user.id === me.id ? null : (
+          {/* {user.id === me.id ? null : (
             <Touchable onPress={() => goMessage(token, user, me)}>
               <IconContainer>
                 <FontAwesome name="comment" size={24} color="black" />
               </IconContainer>
             </Touchable>
-          )}
+          )} */}
         </IconsContainer>
 
         <Bold>{like_count === 0 ? "" : `${like_count}명이 좋아합니다`}</Bold>
