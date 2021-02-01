@@ -8,7 +8,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PostPhoto from "./PostPhoto";
 import colors from "../colors";
 import { toggleLike } from "../redux/postsSlice";
-import { toggleFollow, goConversation } from "../redux/usersSlice";
+import { toggleFollow } from "../redux/usersSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.View`

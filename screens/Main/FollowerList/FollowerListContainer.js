@@ -7,6 +7,6 @@ export default ({ route }) => {
     params: { followees },
   } = route;
   const myfollowers = followees;
-
+  console.log(followees);
   return <FollowerListPresenter myfollowers={myfollowers} />;
 };

@@ -388,4 +388,12 @@ export const editUserInfo = (userId, form, token) => async (
   }
 };
 
+export const userLogOut = () => async (dispatch, getState) => {
+  const {
+    usersReducer: { token },
+  } = getState();
+  const data = await api.logOut(token);
+  dispatch(logOut());
+};
+
 export default userSlice.reducer;

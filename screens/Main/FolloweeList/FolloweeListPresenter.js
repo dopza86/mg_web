@@ -1,5 +1,10 @@
 import React from "react";
 import styled from "styled-components/native";
+import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { View } from "react-native";
+import { useDispatch } from "react-redux";
+import { toggleFollow } from "../../../redux/usersSlice";
 
 const Container = styled.View`
   width: 100%;
@@ -27,10 +32,27 @@ const Caption = styled.Text`
   margin: 5px 0px;
   font-size: 12px;
 `;
+const FollwContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center
+  margin-left: 10px;
+  border: 1px solid black;
+  padding: 2px 5px;
+  border-radius: 5;
+  background-color: #0095f6;
+`;
+
+const FollweText = styled.Text`
+  color: white;
+  font-size: 12px;
+`;
 const Text = styled.Text``;
 const Image = styled.Image``;
+const Touchable = styled.TouchableOpacity``;
 export default ({ myfollowees }) => {
   console.log(myfollowees);
+  const dispatch = useDispatch();
   return (
     <Container>
       {myfollowees.map((mf) => (
@@ -45,6 +67,22 @@ export default ({ myfollowees }) => {
               <Caption>{mf.bio}</Caption>
             </HeaderUserContainer>
           </UserTouchable>
+          <View style={{ marginLeft: 10 }}>
+            <Touchable onPress={() => dispatch(toggleFollow(mf))}>
+              {mf.is_follower ? (
+                <>
+                  <AntDesign name="check" size={24} color="green" />
+                </>
+              ) : (
+                <>
+                  <FollwContainer>
+                    <Ionicons name="add" size={12} color="white" />
+                    <FollweText>팔로우</FollweText>
+                  </FollwContainer>
+                </>
+              )}
+            </Touchable>
+          </View>
         </Header>
       ))}
     </Container>

@@ -23,27 +23,19 @@ export default ({
   } = route;
 
   const postUserId = user.id;
-  useEffect(() => {
-    getFollowee(postUserId);
-  }, []);
-  useEffect(() => {
-    getFollower(postUserId);
-  }, []);
 
   useEffect(() => {
+    getFollowee(postUserId);
+    getFollower(postUserId);
     getUserPost(user.id);
+    getPostUser(postUserId);
   }, []);
   useEffect(() => {
     getUserPost(user.id);
   }, [likes]);
-  useEffect(() => {
-    getUserPost(user.id);
-  }, [followers]);
 
   useEffect(() => {
-    getPostUser(postUserId);
-  }, []);
-  useEffect(() => {
+    getUserPost(user.id);
     getFollowee(postUserId);
     getPostUser(postUserId);
   }, [followers]);

@@ -18,6 +18,7 @@ export default {
   createAccount: (form) => callApi("post", "/rest-auth/registration/", form),
   // login: (form) => callApi("post", "/users/login/", form),
   login: (form) => callApi("post", "/rest-auth/login/", form),
+  logOut: (token) => callApi("post", "/rest-auth/logout/", null, token),
   getUser: (pk) => callApi("get", `/users/${pk}`, pk),
   follow: (followerId, token) =>
     callApi(

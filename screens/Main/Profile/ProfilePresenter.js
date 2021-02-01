@@ -1,10 +1,18 @@
 import React from "react";
 import styled from "styled-components/native";
-import { ActivityIndicator, Dimensions, Image, ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  ScrollView,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import ProfilePostCard from "./ProfilePostCard";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { userLogOut } from "../../../redux/usersSlice";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -20,7 +28,11 @@ const HeaderContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
-const HeaderPhotoContainer = styled.View``;
+const HeaderPhotoContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
 const HeaderTextContainer = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
@@ -68,6 +80,21 @@ const IconContainer = styled.View`
   margin-right: 10px;
   align-items: center;
 `;
+const FollwContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center
+  margin-left: 10px;
+  border: 1px solid black;
+  padding: 4px 10px;
+  border-radius: 5;
+  background-color: #0095f6;
+`;
+
+const FollweText = styled.Text`
+  color: white;
+  font-size: 12px;
+`;
 export default ({
   followees,
   followers,
@@ -78,7 +105,15 @@ export default ({
   loadingMyPost,
 }) => {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    const confirmLogout = confirm("로그아웃 하시겠습니까?");
+    if (confirmLogout) {
+      dispatch(userLogOut());
+    } else {
+      return;
+    }
+  };
   return (
     <>
       {" "}
@@ -98,12 +133,21 @@ export default ({
             <Container>
               <HeaderContainer>
                 <HeaderPhotoContainer>
-                  <Image
-                    style={{ height: 80, width: 80, borderRadius: 100 }}
-                    source={{ uri: user.avatar }}
-                  />
-                  <Text>{user.username}</Text>
-                  <Text>{user.bio}</Text>
+                  <View>
+                    <Image
+                      style={{ height: 80, width: 80, borderRadius: 100 }}
+                      source={{ uri: user.avatar }}
+                    />
+                    <Text>{user.username}</Text>
+                    <Text>{user.bio}</Text>
+                  </View>
+                  <View style={{ marginLeft: 10 }}>
+                    <Touchable onPress={() => handleLogout()}>
+                      <FollwContainer>
+                        <FollweText>로그아웃</FollweText>
+                      </FollwContainer>
+                    </Touchable>
+                  </View>
                 </HeaderPhotoContainer>
                 <HeaderViewContainer>
                   <LargeText>{myPostLength}</LargeText>

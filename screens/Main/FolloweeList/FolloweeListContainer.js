@@ -2,10 +2,13 @@ import React from "react";
 
 import FolloweeListPresenter from "./FolloweeListPresenter";
 
-export default ({ route }) => {
+export default ({ route, myFollowers, user }) => {
   const {
     params: { followers },
   } = route;
   const myfollowees = followers;
-  return <FolloweeListPresenter myfollowees={myfollowees} />;
+
+  // const is_follower = myFollowers.find((follower) => follower.id === user.id);
+  console.log(myFollowers);
+  return <FolloweeListPresenter myfollowees={myFollowers} />;
 };
