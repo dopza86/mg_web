@@ -35,7 +35,8 @@ export default {
   posts: (page = 1, token) =>
     callApi("get", `/posts/post/?page=${page}`, null, token),
   post: (postId) => callApi("get", `/posts/post/${postId}`),
-  search: (form, token) => callApi("post", "/posts/post/search/", form, token),
+  search: (form, token, page) =>
+    callApi("post", `/posts/post/search/?${page}`, form, token),
   handleLike: (postId, userId, token) =>
     callApi(
       "get",

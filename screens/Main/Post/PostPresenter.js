@@ -50,7 +50,7 @@ const LoadMoreText = styled.Text`
   font-weight: 500;
 `;
 
-export default ({ posts, increasePage, token, me }) => {
+export default ({ posts, increasePage, token, me, onScroll }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [comment, setComments] = useState("");
@@ -68,7 +68,7 @@ export default ({ posts, increasePage, token, me }) => {
           <ActivityIndicator color="black" />
         ) : (
           <>
-            <Scroll>
+            <Scroll onScroll={onScroll}>
               {posts.map((post) => (
                 <>
                   <PostCard
@@ -112,13 +112,13 @@ export default ({ posts, increasePage, token, me }) => {
                 </>
               ))}
 
-              <LoadMoreContainer>
+              {/* <LoadMoreContainer>
                 <Touchable onPress={increasePage}>
                   <LoadMore>
                     <LoadMoreText>더보기</LoadMoreText>
                   </LoadMore>
                 </Touchable>
-              </LoadMoreContainer>
+              </LoadMoreContainer> */}
             </Scroll>
           </>
         )}

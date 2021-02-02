@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import api from "../../../api";
+
 import { searchPost } from "../../../redux/postsSlice";
 import SearchPresenter from "./SearchPresenter";
 
@@ -22,7 +22,7 @@ export default ({
   const [tag, setTag] = useState();
   const [location, setLocation] = useState();
   const [caption, setCaption] = useState();
-  const [searchResults, setSearchResults] = useState();
+  // const [searchResults, setSearchResults] = useState();
   const [modalText, setModalText] = useState("작성자");
   // const [loading, setLoading] = useState(false);
   const userSwitch = () => {
@@ -72,7 +72,11 @@ export default ({
         ...(searchValue && { user: searchValue }),
       };
 
-      dispatch(searchPost(form, token));
+      if (Object.keys(form).length < 1) {
+        alert("검색어를 입력하세요");
+      } else {
+        dispatch(searchPost(form, token));
+      }
     }
     if (locationEnabled === true) {
       const form = {
@@ -99,6 +103,24 @@ export default ({
   };
 
   useEffect(clearFilterPost, []);
+  const onScroll = (e) => {
+    const {
+      nativeEvent: {
+        layoutMeasurement,
+        contentOffset: { y },
+        contentSize: { height },
+      },
+    } = e;
+    console.log(e);
+    let paddingToBottom = 1;
+    paddingToBottom += layoutMeasurement.height;
+
+    if (y + paddingToBottom >= height) {
+      console.log(height);
+    } else {
+      return;
+    }
+  };
   return (
     <SearchPresenter
       userEnabled={userEnabled}
@@ -115,6 +137,7 @@ export default ({
       triggerSearch={triggerSearch}
       searchResults={filtered}
       loading={loading}
+      onScroll={onScroll}
     />
   );
 };

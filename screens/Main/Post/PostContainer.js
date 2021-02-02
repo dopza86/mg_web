@@ -32,13 +32,31 @@ export default ({
   useEffect(() => {
     getMe();
   }, []);
+  const onScroll = (e) => {
+    const {
+      nativeEvent: {
+        layoutMeasurement,
+        contentOffset: { y },
+        contentSize: { height },
+      },
+    } = e;
+    let paddingToBottom = 1;
+    paddingToBottom += layoutMeasurement.height;
 
+    if (y + paddingToBottom >= height) {
+      console.log(height);
+      increasePage();
+    } else {
+      return;
+    }
+  };
   return (
     <PostPresenter
       posts={posts}
       increasePage={increasePage}
       token={token}
       me={user}
+      onScroll={onScroll}
     />
   );
 };

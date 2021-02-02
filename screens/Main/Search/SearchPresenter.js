@@ -148,6 +148,7 @@ const ResultsText = styled.Text`
   font-size: 16px;
   text-align: center;
 `;
+const Scroll = styled.ScrollView``;
 
 export default ({
   userEnabled,
@@ -163,9 +164,10 @@ export default ({
   modalText,
   triggerSearch,
   loading,
+  onScroll,
 }) => {
   const navigation = useNavigation();
-
+  console.log(searchResults[0]);
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -177,7 +179,7 @@ export default ({
           <Back>뒤로가기</Back>
         </IconsContainer>
       </TouchableOpacity>
-      <ScrollView>
+      <ScrollView onScroll={onScroll}>
         <Container>
           <SearchContainer>
             <SearchBar
@@ -269,8 +271,10 @@ export default ({
             <SearchText>검색</SearchText>
           </SearchBtn>
         </SearchBtnContainer>
-        {searchResults.length === 0 ? null : (
-          <ResultsText>{searchResults.length}개의 결과가 있습니다</ResultsText>
+        {searchResults[0] === undefined ? null : (
+          <ResultsText>
+            {searchResults[0].posts_length}개의 결과가 있습니다
+          </ResultsText>
         )}
         {loading ? (
           <ActivityIndicator></ActivityIndicator>

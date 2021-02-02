@@ -293,14 +293,18 @@ export const editComment = (commentId, text, token, postId) => async (
   }
 };
 
-export const searchPost = (form, token) => async (dispatch, getState) => {
+export const searchPost = (form, token, page) => async (dispatch, getState) => {
   dispatch(setLoadingTrue());
   try {
     const {
       data: { results },
-    } = await api.search(form, token);
-
-    dispatch(setFilterPost({ results }));
+    } = await api.search(form, token, page);
+    console.log(results);
+    if (results.length === 0) {
+      alert("검색 결과가 없습니다");
+    } else {
+      dispatch(setFilterPost({ results, page }));
+    }
   } catch (e) {
     console.warn(e);
   } finally {
